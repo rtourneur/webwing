@@ -15,6 +15,8 @@ import org.springframework.stereotype.Repository;
 
 import com.raf.xwing.jpa.dao.UpgradeDao;
 import com.raf.xwing.jpa.domain.card.Upgrade;
+import com.raf.xwing.jpa.domain.card.UpgradeExpansion;
+import com.raf.xwing.jpa.domain.model.Expansion;
 import com.raf.xwing.jpa.domain.model.UpgradeType;
 
 /**
@@ -63,6 +65,15 @@ public final class UpgradeDaoImpl extends AbstractDao<Upgrade, Integer> implemen
         final Join<Upgrade, UpgradeType> join = root.join("upgradeType", JoinType.INNER);
         predicatesList.add(getEquals(join, "ident", upgradeType.getId()));
       }
+    }
+    if (example.getExpansions() != null && !example.getExpansions().isEmpty()) {
+      final List<Expansion> expansions = new ArrayList<>();
+      for (final UpgradeExpansion upgradeExpansion : example.getExpansions()) {
+        expansions.add(upgradeExpansion.getExpansion());
+      }
+      final Join<Upgrade, Expansion> join = root.join("expansions", JoinType.INNER);
+      final CriteriaBuilder builder = getCriteriaBuilder();
+      predicatesList.add(builder.in(join.get("expansion")).value(expansions));
     }
 
     return predicatesList.toArray(new Predicate[predicatesList.size()]);

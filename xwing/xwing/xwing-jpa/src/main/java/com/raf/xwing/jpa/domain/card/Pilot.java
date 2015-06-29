@@ -71,8 +71,8 @@ public class Pilot extends AbstractDescriptionEntity<Integer> {
   static {
     FIELDS.add("name");
     FIELDS.add("shipType");
+    FIELDS.add("expansion");
   }
-
 
   /**
    * constructor.

@@ -69,6 +69,7 @@ public class Upgrade extends AbstractDescriptionEntity<Integer> {
   static {
     FIELDS.add("name");
     FIELDS.add("upgradeType");
+    FIELDS.add("expansion");
   }
 
   /**

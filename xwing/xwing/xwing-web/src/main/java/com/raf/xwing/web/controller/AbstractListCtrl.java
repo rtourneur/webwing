@@ -58,6 +58,10 @@ public abstract class AbstractListCtrl<D extends EntityDao<E, I>, E extends Doma
   /** The search field shipType. */
   protected static final String FIELD_SHIP_TYPE = "shipType";
 
+  /** The search field expansion. */
+  protected static final String FIELD_EXPANSION = "expansion";
+
+
   /**
    * Constructor.
    */

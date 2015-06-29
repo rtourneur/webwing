@@ -1,5 +1,6 @@
 package com.raf.xwing.web.controller.card;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.annotation.Resource;
@@ -14,9 +15,12 @@ import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.bind.support.SessionStatus;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.raf.xwing.jpa.dao.ExpansionDao;
 import com.raf.xwing.jpa.dao.UpgradeDao;
 import com.raf.xwing.jpa.dao.UpgradeTypeDao;
 import com.raf.xwing.jpa.domain.card.Upgrade;
+import com.raf.xwing.jpa.domain.card.UpgradeExpansion;
+import com.raf.xwing.jpa.domain.model.Expansion;
 import com.raf.xwing.jpa.domain.model.UpgradeType;
 import com.raf.xwing.util.Loggable;
 import com.raf.xwing.web.controller.AbstractListCtrl;
@@ -44,6 +48,10 @@ public class UpgradeListCtrl extends AbstractListCtrl<UpgradeDao, Upgrade, Upgra
   /** The upgrade type dao. */
   @Resource
   private transient UpgradeTypeDao upgradeTypeDao;
+
+  /** The expansion dao. */
+  @Resource
+  private transient ExpansionDao expansionDao;
 
   /**
    * Constructor.
@@ -94,6 +102,7 @@ public class UpgradeListCtrl extends AbstractListCtrl<UpgradeDao, Upgrade, Upgra
   public ModelAndView list(final Model model, @ModelAttribute(UpgradeListForm.FORM_NAME) final UpgradeListForm form) {
     model.addAttribute("list", getEntities(form));
     model.addAttribute("upgradeTypes", this.upgradeTypeDao.listAll());
+    model.addAttribute("expansions", this.expansionDao.listAll());
     return new ModelAndView(LIST_PAGE, "command", form);
   }
 
@@ -159,6 +168,14 @@ public class UpgradeListCtrl extends AbstractListCtrl<UpgradeDao, Upgrade, Upgra
       final UpgradeType upgradeType = new UpgradeType();
       upgradeType.setIdent(Integer.valueOf(value));
       entity.setUpgradeType(upgradeType);
+    } else if (FIELD_EXPANSION.equals(field) && StringUtils.isNumeric(value)) {
+      final Expansion expansion = new Expansion();
+      expansion.setIdent(Integer.valueOf(value));
+      final UpgradeExpansion upgradeExpansion = new UpgradeExpansion();
+      upgradeExpansion.setExpansion(expansion);
+      final List<UpgradeExpansion> expansions = new ArrayList<UpgradeExpansion>();
+      expansions.add(upgradeExpansion);
+      entity.setExpansions(expansions);
     }
   }
 

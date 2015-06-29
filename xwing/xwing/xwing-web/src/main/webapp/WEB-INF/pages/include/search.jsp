@@ -31,6 +31,12 @@
                 <form:options items="${restrictionTypes}" itemValue="name" itemLabel="name"/>
               </form:select>
             </c:when>
+            <c:when test="${field.key eq 'expansion' and !empty expansions}">
+              <form:select path="values['${field.key}']">
+                <form:option value="">--</form:option>
+                <form:options items="${expansions}" itemValue="id" itemLabel="name"/>
+              </form:select>
+            </c:when>
             <c:otherwise>
               <form:input path="values['${field.key}']" />
             </c:otherwise>

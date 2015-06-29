@@ -15,6 +15,8 @@ import org.springframework.stereotype.Repository;
 
 import com.raf.xwing.jpa.dao.PilotDao;
 import com.raf.xwing.jpa.domain.card.Pilot;
+import com.raf.xwing.jpa.domain.card.PilotExpansion;
+import com.raf.xwing.jpa.domain.model.Expansion;
 import com.raf.xwing.jpa.domain.model.ShipType;
 
 /**
@@ -63,6 +65,15 @@ public final class PilotDaoImpl extends AbstractDao<Pilot, Integer> implements P
         final Join<Pilot, ShipType> join = root.join("shipType", JoinType.INNER);
         predicatesList.add(getEquals(join, "ident", shipType.getId()));
       }
+    }
+    if (example.getExpansions() != null && !example.getExpansions().isEmpty()) {
+      final List<Expansion> expansions = new ArrayList<>();
+      for (final PilotExpansion pilotExpansion : example.getExpansions()) {
+        expansions.add(pilotExpansion.getExpansion());
+      }
+      final Join<Pilot, Expansion> join = root.join("expansions", JoinType.INNER);
+      final CriteriaBuilder builder = getCriteriaBuilder();
+      predicatesList.add(builder.in(join.get("expansion")).value(expansions));
     }
 
     return predicatesList.toArray(new Predicate[predicatesList.size()]);
