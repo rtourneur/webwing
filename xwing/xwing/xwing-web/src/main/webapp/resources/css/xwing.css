@@ -1,0 +1,207 @@
+@CHARSET "ISO-8859-1";
+
+div.header {
+	text-align: center;
+	font-size: large;
+}
+
+.level {
+	text-align: center;
+	color: #F57F20;
+}
+
+.weapon {
+	text-align: center;
+	color: #EE1B44;
+}
+
+.agility {
+	text-align: center;
+	color: #86C542;
+}
+
+.hull {
+	text-align: center;
+	color: #F2EE1E;
+}
+
+.shield {
+	text-align: center;
+	color: #7DD2E4;
+}
+
+.energy {
+	text-align: center;
+	color: #CAA8CF;
+}
+
+.searchlabel {
+	text-align: right;
+	font-weight: bold;
+	width: 50%
+}
+
+.searchfield {
+	width: 50%
+}
+
+.columnheader {
+	font-weight: bold;
+	color: white;
+}
+
+.icon {
+	float: right;
+	margin-left: 2px;
+	margin-right: 2px;
+}
+
+.smallicon {
+	margin-left: -4px;
+	margin-right: -4px;
+}
+
+.dial {
+	width: 20%;
+	margin-left: 40%;
+	margin-right: 40%;
+	background-color: black;
+	color: white;
+	font-weight: bold;
+	text-align: center;
+	border-collapse: collapse;
+}
+
+.dial td {
+	border:1px dotted gray;
+	width: 20px;
+}
+.description {
+	/*white-space : nowrap;*/
+	max-width: 0;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+}
+
+.tooltip {
+	text-decoration: none;
+	position: relative;
+}
+
+.tooltip span {
+	display: none;
+	-moz-border-radius: 6px;
+	-webkit-border-radius: 6px;
+	border-radius: 6px;
+	color: black;
+	background: white;
+}
+
+.tooltip span img {
+	float: left;
+	margin: 0px 8px 8px 0;
+}
+
+.tooltip:hover span {
+	display: block;
+	position: absolute;
+	top: 0;
+	left: 0;
+	z-index: 1000;
+	width: auto;
+	max-width: 320px;
+	min-height: 128px;
+	border: 1px solid black;
+	margin-top: 12px;
+	margin-left: 32px;
+	overflow: hidden;
+	padding: 8px;
+}
+/* Admin*/
+.admin {
+	background-color: #D8BA9C;
+}
+
+.adminlist {
+	width: 80%;
+	margin-left: 10%;
+	margin-right: 10%;
+	background-color: #50371f;
+}
+
+.adminpage {
+	width: 80%;
+	margin-left: 10%;
+	margin-right: 10%;
+	background-color: #50371f;
+	color: white;
+}
+
+.adminpage a:Hover {
+	color: #50371f;
+}
+
+.adminpage a {
+	color: #50371f;
+}
+
+.adminrowodd {
+	background-color: #a57341;
+}
+
+.adminroweven {
+	background-color: #694929;
+}
+
+.adminsearch {
+	width: 80%;
+	margin-left: 10%;
+	margin-right: 10%;
+	background-color: #D8BA9C;
+	margin-top: 2px;
+	margin-bottom: 2px;
+}
+
+/* Card */
+.card {
+	background-color: #a5d79d;
+}
+
+.cardlist {
+	width: 80%;
+	margin-left: 10%;
+	margin-right: 10%;
+	background-color: #306929;
+}
+
+.cardpage {
+	width: 80%;
+	margin-left: 10%;
+	margin-right: 10%;
+	background-color: #306929;
+	color: white;
+}
+
+.cardpage a:Hover {
+	color: #306929;
+}
+
+.cardpage a {
+	color: #306929;
+}
+
+.cardrowodd {
+	background-color: #a4d99d;
+}
+
+.cardroweven {
+	background-color: #5bbb51;
+}
+
+.cardsearch {
+	width: 80%;
+	margin-left: 10%;
+	margin-right: 10%;
+	background-color: #a5d79d;
+}
