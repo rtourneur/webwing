@@ -156,16 +156,16 @@ public class PilotDaoTest {
     final Pilot example = new Pilot();
     List<Pilot> resultats = this.pilotDao.findByExample(example);
     assertFalse("La liste est vide", resultats.isEmpty());
-    assertEquals("La liste n'est pas complete", 136, resultats.size());
-    example.setName("Torpilles");
+    assertEquals("La liste n'est pas complete", 125, resultats.size());
+    example.setName("Pilote de l'escadron");
     resultats = this.pilotDao.findByExample(example);
     assertFalse("La liste est vide", resultats.isEmpty());
-    assertEquals("La liste n'est pas correcte", 4, resultats.size());
+    assertEquals("La liste n'est pas correcte", 23, resultats.size());
     example.setName(null);
     example.setShipType(this.shipTypeDao.getById(Integer.valueOf(1)));
     resultats = this.pilotDao.findByExample(example);
     assertFalse("La liste est vide", resultats.isEmpty());
-    assertEquals("La liste n'est pas correcte", 23, resultats.size());
+    assertEquals("La liste n'est pas correcte", 10, resultats.size());
   }
 
   /**
@@ -181,9 +181,9 @@ public class PilotDaoTest {
     assertEquals("La liste n'est pas complete", 10, resultats.size());
     resultats = this.pilotDao.list(10, 14);
     assertFalse("La liste est vide", resultats.isEmpty());
-    assertEquals("La liste n'est pas complete", 6, resultats.size());
+    assertEquals("La liste n'est pas complete", 5, resultats.size());
     resultats = this.pilotDao.list(0, 0);
     assertFalse("La liste est vide", resultats.isEmpty());
-    assertEquals("La liste n'est pas complete", 136, resultats.size());
+    assertEquals("La liste n'est pas complete", 125, resultats.size());
   }
 }

@@ -158,7 +158,7 @@ public class UpgradeDaoTest {
     final Upgrade example = new Upgrade();
     List<Upgrade> resultats = this.upgradeDao.findByExample(example);
     assertFalse("La liste est vide", resultats.isEmpty());
-    assertEquals("La liste n'est pas complete", 136, resultats.size());
+    assertEquals("La liste n'est pas complete", 158, resultats.size());
     example.setName("Torpilles");
     resultats = this.upgradeDao.findByExample(example);
     assertFalse("La liste est vide", resultats.isEmpty());
@@ -167,7 +167,7 @@ public class UpgradeDaoTest {
     example.setUpgradeType(this.upgradeTypeDao.getById(Integer.valueOf(1)));
     resultats = this.upgradeDao.findByExample(example);
     assertFalse("La liste est vide", resultats.isEmpty());
-    assertEquals("La liste n'est pas correcte", 23, resultats.size());
+    assertEquals("La liste n'est pas correcte", 28, resultats.size());
   }
 
   /**
@@ -183,9 +183,9 @@ public class UpgradeDaoTest {
     assertEquals("La liste n'est pas complete", 10, resultats.size());
     resultats = this.upgradeDao.list(10, 14);
     assertFalse("La liste est vide", resultats.isEmpty());
-    assertEquals("La liste n'est pas complete", 6, resultats.size());
+    assertEquals("La liste n'est pas complete", 10, resultats.size());
     resultats = this.upgradeDao.list(0, 0);
     assertFalse("La liste est vide", resultats.isEmpty());
-    assertEquals("La liste n'est pas complete", 136, resultats.size());
+    assertEquals("La liste n'est pas complete", 158, resultats.size());
   }
 }
