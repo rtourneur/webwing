@@ -1,7 +1,7 @@
 CREATE TABLE XWING.PILOT (
     id INT NOT NULL PRIMARY KEY,
     name VARCHAR(40) NOT NULL,
-    description VARCHAR(255),
+    description VARCHAR(1024),
     level INT(1) NOT NULL,
 	cost INT(1) NOT NULL,
 	uniqueness BOOLEAN NOT NULL,
@@ -17,7 +17,7 @@ ALTER TABLE XWING.PILOT
 ADD CONSTRAINT FK_PILOT_UPGRADE_TYPE_ID FOREIGN KEY (upgrade_type_id) REFERENCES XWING.UPGRADE_TYPE (id);
 
 insert into XWING.PILOT (ID, NAME, DESCRIPTION, LEVEL, COST, UNIQUENESS, SHIP_TYPE_ID, FACTION_ID, UPGRADE_TYPE_ID)
-values ('1','Luke Skywalker','Quand vous défendez, vous pouvez échanger 1 de vos résultats <img class="smallicon" src="$path/action/icone_focus.png"> contre un résultat <img class="smallicon" src=$path/action/icone_evade.png">.','8','28','1','1', '1', '1');
+values ('1','Luke Skywalker','Quand vous défendez, vous pouvez échanger 1 de vos résultats <img class="smallicon" src="$path/action/icone_focus.png"> contre un résultat <img class="smallicon" src="$path/action/icone_evade.png">.','8','28','1','1', '1', '1');
 insert into XWING.PILOT (ID, NAME, DESCRIPTION, LEVEL, COST, UNIQUENESS, SHIP_TYPE_ID, FACTION_ID, UPGRADE_TYPE_ID)
 values ('2','Biggs Darklighter','Les autres vaisseaux alliés situés à portée 1 ne peuvent être les cibles d''attaques si l''assaillant est en mesure de vous attaquer à la place.','5','25','1','1', '1', null);
 insert into XWING.PILOT (ID, NAME, DESCRIPTION, LEVEL, COST, UNIQUENESS, SHIP_TYPE_ID, FACTION_ID, UPGRADE_TYPE_ID)
@@ -165,7 +165,7 @@ values ('73','Pilote de l''escadron Sigma','<i>Avec le TIE Fantôme, conçu dans
 insert into XWING.PILOT (ID, NAME, DESCRIPTION, LEVEL, COST, UNIQUENESS, SHIP_TYPE_ID, FACTION_ID, UPGRADE_TYPE_ID)
 values ('74','Carnor Jax','Les vaisseaux ennemis situés à portée 1 ne peuvent pas effectuer d''actions de concentration ou d''évasion, et ne peuvent pas dépenser de marqueurs de concentartion ou d''évasion.','8','26','1','9', '2', '1');
 insert into XWING.PILOT (ID, NAME, DESCRIPTION, LEVEL, COST, UNIQUENESS, SHIP_TYPE_ID, FACTION_ID, UPGRADE_TYPE_ID)
-values ('75','Tetran Cowall','Quand vous révélez une manœuvre <img class="smallicon" src="$path/dial/icone_koiogran.png">, vous pouvez considérer la vitesse de celle-ci comme "1", "3" ou "5".','7','24','1','9', '2', '1');
+values ('75','Tetran Cowall','Quand vous révélez une manoeuvre <img class="smallicon" src="$path/dial/icone_koiogran.png">, vous pouvez considérer la vitesse de celle-ci comme "1", "3" ou "5".','7','24','1','9', '2', '1');
 insert into XWING.PILOT (ID, NAME, DESCRIPTION, LEVEL, COST, UNIQUENESS, SHIP_TYPE_ID, FACTION_ID, UPGRADE_TYPE_ID)
 values ('76','Kir Kanos','Quand vous attaquez à portée 2-3, vous pouvez dépenser un marqueur d''évasion pour ajouter 1 résultat <img class="smallicon" src="$path/icone_hit.png"> à votre jet.','6','24','1','9', '2', null);
 insert into XWING.PILOT (ID, NAME, DESCRIPTION, LEVEL, COST, UNIQUENESS, SHIP_TYPE_ID, FACTION_ID, UPGRADE_TYPE_ID)
@@ -177,9 +177,9 @@ values ('79','Jake Farrell','Après avoir effectué une action de concentration 
 insert into XWING.PILOT (ID, NAME, DESCRIPTION, LEVEL, COST, UNIQUENESS, SHIP_TYPE_ID, FACTION_ID, UPGRADE_TYPE_ID)
 values ('80','Gemmer Sojan','Tant que vous êtes à portée 1 d''au moins 1 vaisseau ennemi, augmentez de 1 votre valeur d''agilité.','5','22','1','3', '1', null);
 insert into XWING.PILOT (ID, NAME, DESCRIPTION, LEVEL, COST, UNIQUENESS, SHIP_TYPE_ID, FACTION_ID, UPGRADE_TYPE_ID)
-values ('81','Keyan Farlander','Quand vous attaquez, vous pouvez retirer 1 marqueur de stress pour changer tous vos résultats <img class="smallicon" src="$path/icone_focus.png"> en résultats <img class="smallicon" src="$path/icone_hit.png">.','7','29','1','4', '1', '1');
+values ('81','Keyan Farlander','Quand vous attaquez, vous pouvez retirer 1 marqueur de stress pour changer tous vos résultats <img class="smallicon" src="$path/action/icone_focus.png"> en résultats <img class="smallicon" src="$path/icone_hit.png">.','7','29','1','4', '1', '1');
 insert into XWING.PILOT (ID, NAME, DESCRIPTION, LEVEL, COST, UNIQUENESS, SHIP_TYPE_ID, FACTION_ID, UPGRADE_TYPE_ID)
-values ('82','Nera Dantels','Vous pouvez affectuer des attaques d''arme secondaire <img class="smallicon" src="$path/icone_Card/torpedoes.png"> contre des vaisseaux ennemis situés en dehors de votre arc de tir.','5','26','1','4', '1', '1');
+values ('82','Nera Dantels','Vous pouvez affectuer des attaques d''arme secondaire <img class="smallicon" src="$path/card/icone_Card_Torpedoes.png"> contre des vaisseaux ennemis situés en dehors de votre arc de tir.','5','26','1','4', '1', '1');
 insert into XWING.PILOT (ID, NAME, DESCRIPTION, LEVEL, COST, UNIQUENESS, SHIP_TYPE_ID, FACTION_ID, UPGRADE_TYPE_ID)
 values ('83','Transport moyen GR-75','<i>Le GR-75 joua un rôle essentiel dans l''évacuation de Hoth, puisqu''il transporta une bonne partie des personnels et du matériel de l''Alliance au point de rendez-vous.</i>','3','2','0','25', '1', null);
 insert into XWING.PILOT (ID, NAME, DESCRIPTION, LEVEL, COST, UNIQUENESS, SHIP_TYPE_ID, FACTION_ID, UPGRADE_TYPE_ID)
@@ -203,7 +203,7 @@ values ('92','Eaden Vrill','Quand vous effectuez une attaque d''arme principale 
 insert into XWING.PILOT (ID, NAME, DESCRIPTION, LEVEL, COST, UNIQUENESS, SHIP_TYPE_ID, FACTION_ID, UPGRADE_TYPE_ID)
 values ('93','Frontalier de l''espace sauvage','<i>Certes, le cargo léger YT-2400 possédait une soute de bonne taille, mais celle-ci était souent encombrée de systèmes d''armement modifiés et de moteurs énormes.</i>','2','30','0','18', '1', null);
 insert into XWING.PILOT (ID, NAME, DESCRIPTION, LEVEL, COST, UNIQUENESS, SHIP_TYPE_ID, FACTION_ID, UPGRADE_TYPE_ID)
-values ('94','Contre-amiral Chiraneau','Quand vous attaquez à portée 1-2, vous pouvez changer 1 de vos résultats <img class="smallicon" src="$path/icone_focus.png"> en résultat <img class="smallicon" src="$path/icone_criticalhit.png">.','8','46','1','19', '2', '1');
+values ('94','Contre-amiral Chiraneau','Quand vous attaquez à portée 1-2, vous pouvez changer 1 de vos résultats <img class="smallicon" src="$path/action/icone_focus.png"> en résultat <img class="smallicon" src="$path/icone_criticalhit.png">.','8','46','1','19', '2', '1');
 insert into XWING.PILOT (ID, NAME, DESCRIPTION, LEVEL, COST, UNIQUENESS, SHIP_TYPE_ID, FACTION_ID, UPGRADE_TYPE_ID)
 values ('95','Commandant Kenkirk','Si vous n''avez pas de boucliers et qu''au moins 1 carte de dégâts vous est assignée, augmentez de 1 votre valeur d''agilité.','6','44','1','19', '2', '1');
 insert into XWING.PILOT (ID, NAME, DESCRIPTION, LEVEL, COST, UNIQUENESS, SHIP_TYPE_ID, FACTION_ID, UPGRADE_TYPE_ID)
@@ -261,7 +261,7 @@ values ('121','Astropilote du Cartel','<i>L''intercepteur "Scyk" M3-A de MandalM
 insert into XWING.PILOT (ID, NAME, DESCRIPTION, LEVEL, COST, UNIQUENESS, SHIP_TYPE_ID, FACTION_ID, UPGRADE_TYPE_ID)
 values ('122','IG-88A','Après avoir effectué une attaque qui détruit le défenseur, vous pouvez récupérer 1 bouclier.','6','36','1','24', '3', '1');
 insert into XWING.PILOT (ID, NAME, DESCRIPTION, LEVEL, COST, UNIQUENESS, SHIP_TYPE_ID, FACTION_ID, UPGRADE_TYPE_ID)
-values ('123','IG-88B','Une fois par tour, après avoir effectué une attaque qui ne touche pas, vous pouvez effectuer une attaque avec une arme secondaire <img class="smallicon" src="$path/icone_Card_Cannons.png"> équipée.','6','36','1','24', '3', '1');
+values ('123','IG-88B','Une fois par tour, après avoir effectué une attaque qui ne touche pas, vous pouvez effectuer une attaque avec une arme secondaire <img class="smallicon" src="$path/card/icone_Card_Cannons.png"> équipée.','6','36','1','24', '3', '1');
 insert into XWING.PILOT (ID, NAME, DESCRIPTION, LEVEL, COST, UNIQUENESS, SHIP_TYPE_ID, FACTION_ID, UPGRADE_TYPE_ID)
 values ('124','IG-88C','Après avoir effectué une action d''accélération, vous pouvez effectuer une action d''évasion gratuite.','6','36','1','24', '3', '1');
 insert into XWING.PILOT (ID, NAME, DESCRIPTION, LEVEL, COST, UNIQUENESS, SHIP_TYPE_ID, FACTION_ID, UPGRADE_TYPE_ID)
