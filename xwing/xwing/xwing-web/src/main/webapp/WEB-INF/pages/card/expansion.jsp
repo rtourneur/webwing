@@ -4,7 +4,7 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1" pageEncoding="ISO-8859-1"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <c:set var="table" value="expansion" scope="request"/>
-<c:set var="parent" value="upgrade" scope="request"/>
+<c:set var="parent" value="${entity}" scope="request"/>
 <c:set var="domain" value="card" scope="request"/>
 <html>
   <head>
@@ -21,7 +21,7 @@
       </jsp:include>
       <h1 align="center"><spring:message code="${domain}.${table}.subtitle"/></h1>
       <form:form action="save" method="post">
-        <h2 align="center"><spring:message code="${domain}.${table}.${command.mode}.label"/></h2>
+        <h2 align="center"><spring:message code="${domain}.${parent}.${table}.${command.mode}.label"/></h2>
         <form:hidden path="mode"/>
         <form:hidden path="ident"/>
         <form:hidden path="expansionOld"/>

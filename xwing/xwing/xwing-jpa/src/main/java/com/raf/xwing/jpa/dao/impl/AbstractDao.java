@@ -148,7 +148,6 @@ public abstract class AbstractDao<E extends DomainEntity<I>, I extends Serializa
     return typedQuery.getResultList();
   }
 
-  
   /**
    * List the entities.
    * 
@@ -237,7 +236,7 @@ public abstract class AbstractDao<E extends DomainEntity<I>, I extends Serializa
    *          the searched value
    * @return the predicate
    */
-  protected final Predicate getEquals(final From<E,?> from, final String attributeName, final Object value) {
+  protected final Predicate getEquals(final From<E, ?> from, final String attributeName, final Object value) {
     return getCriteriaBuilder().equal(from.get(attributeName), value);
   }
 

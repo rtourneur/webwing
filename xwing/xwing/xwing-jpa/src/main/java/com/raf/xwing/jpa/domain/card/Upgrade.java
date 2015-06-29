@@ -1,6 +1,5 @@
 package com.raf.xwing.jpa.domain.card;
 
-import static javax.persistence.CascadeType.ALL;
 import static javax.persistence.FetchType.EAGER;
 
 import java.util.ArrayList;
@@ -61,7 +60,7 @@ public class Upgrade extends AbstractDescriptionEntity<Integer> {
   private List<Restriction> restrictions;
 
   /** The list of expansions. */
-  @OneToMany(fetch = EAGER, cascade = ALL)
+  @OneToMany(fetch = EAGER)
   @JoinColumn(name = "upgrade_id", referencedColumnName = "ID")
   @Fetch(FetchMode.SUBSELECT)
   private List<UpgradeExpansion> expansions;

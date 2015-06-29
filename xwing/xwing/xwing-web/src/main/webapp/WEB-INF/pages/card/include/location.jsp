@@ -12,7 +12,14 @@
           ><spring:message code="location.${domain}.${table}"/>
         </c:when>
         <c:otherwise>
-          ><a href='<spring:url value="/xwing/card/${table}/list"/>'><spring:message code="location.${domain}.${table}"/></a>
+          <c:choose>
+            <c:when test="${empty parent}">
+              ><a href='<spring:url value="/xwing/card/${table}/list"/>'><spring:message code="location.${domain}.${table}"/></a>
+            </c:when>
+            <c:otherwise>
+              ><spring:message code="location.${domain}.${table}"/>
+            </c:otherwise>
+          </c:choose>
           ><spring:message code="location.edit"/>
         </c:otherwise>
       </c:choose>
