@@ -16,6 +16,9 @@ public final class PilotForm extends AbstractEntityForm<Pilot, Integer> {
   /** The ship type. */
   private Integer shipType;
 
+  /** The faction. */
+  private Integer faction;
+
   /** The cost. */
   private Integer cost;
 
@@ -25,8 +28,8 @@ public final class PilotForm extends AbstractEntityForm<Pilot, Integer> {
   /** The pilot level. */
   private Integer level;
 
-  /** The upgrade type (elite pilote talent). */
-  private Integer upgradeType;
+  /** The elite pilote talent. */
+  private Boolean talent;
 
   /**
    * Constructor.
@@ -52,6 +55,25 @@ public final class PilotForm extends AbstractEntityForm<Pilot, Integer> {
    */
   public void setShipType(final Integer shipType) {
     this.shipType = shipType;
+  }
+
+  /**
+   * Return the faction.
+   * 
+   * @return the faction
+   */
+  public Integer getFaction() {
+    return this.faction;
+  }
+
+  /**
+   * Define the faction.
+   * 
+   * @param faction
+   *          the faction
+   */
+  public void setFaction(final Integer faction) {
+    this.faction = faction;
   }
 
   /**
@@ -112,22 +134,22 @@ public final class PilotForm extends AbstractEntityForm<Pilot, Integer> {
   }
 
   /**
-   * Return the upgrade type.
+   * Return the elite pilote talent indicator.
    * 
-   * @return the upgrade type
+   * @return the elite pilote talent indicator
    */
-  public Integer getUpgradeType() {
-    return this.upgradeType;
+  public Boolean getTalent() {
+    return this.talent;
   }
 
   /**
-   * Define the upgrade type.
+   * Define the elite pilote talent indicator.
    * 
-   * @param upgradeType
-   *          the upgrade type
+   * @param talent
+   *          the elite pilote talent indicator
    */
-  public void setUpgradeType(final Integer upgradeType) {
-    this.upgradeType = upgradeType;
+  public void setTalent(final Boolean talent) {
+    this.talent = talent;
   }
 
   /**
@@ -141,11 +163,14 @@ public final class PilotForm extends AbstractEntityForm<Pilot, Integer> {
   public void setEntity(final Pilot entity) {
     setEntityImpl(entity);
     setShipType(entity.getShipType().getId());
+    setFaction(entity.getFaction().getId());
     setCost(Integer.valueOf(entity.getCost()));
     setLevel(Integer.valueOf(entity.getLevel()));
     setUniqueness(Boolean.valueOf(entity.isUniqueness()));
-    if (entity.getUpgradeType() != null) {
-      setUpgradeType(entity.getUpgradeType().getId());
+    if (entity.getUpgradeType() == null) {
+      setTalent(Boolean.FALSE);
+    } else {
+      setTalent(Boolean.TRUE);
     }
   }
 

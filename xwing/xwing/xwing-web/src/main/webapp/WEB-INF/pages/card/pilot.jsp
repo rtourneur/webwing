@@ -27,50 +27,68 @@
         <c:set var="yes"><spring:message code="main.edit.yes"/></c:set>
         <c:set var="no"><spring:message code="main.edit.no"/></c:set>
         <table class="${domain}search">
-            <tr>
-              <td class="searchlabel">
-                <form:label path="name"><spring:message code="${domain}.${table}.edit.name"/></form:label>
-              </td>
-              <td class="searchfield"><form:input path="name" size="30"  maxlength="30"/></td>
-            </tr>
-            <tr>
-              <td class="searchlabel">
-                <form:label path="description" ><spring:message code="${domain}.${table}.edit.description"/></form:label>
-              </td>
-              <td class="searchfield"><form:textarea path="description" cols="50" /></td>
-            </tr>
-            <tr>
-              <td class="searchlabel">
-                <form:label path="shipType" ><spring:message code="${domain}.${table}.edit.type"/></form:label>
-              </td>
-              <td class="searchfield">
-                <form:select path="shipType">
-                  <form:option value="0" label="--Please Select"/>
-                  <form:options items="${shipTypes}" itemLabel="name" itemValue="ident" />
-                </form:select>
-              </td>
-            </tr>
-             <tr>
-              <td class="searchlabel">
-                <form:label path="uniqueness" ><spring:message code="${domain}.${table}.edit.unique"/></form:label>
-              </td>
-              <td class="searchfield">
-                <form:radiobutton path="uniqueness" value="true" label="${yes }"/>
-                <form:radiobutton path="uniqueness" value="false" label="${no }"/>
-              </td>
-            </tr>
-            <tr>
-              <td class="searchlabel">
-                <form:label path="cost" ><spring:message code="${domain}.${table}.edit.cost"/></form:label>
-              </td>
-              <td class="searchfield"><form:input path="cost" /></td>
-            </tr>
-            <tr>
-              <td class="searchlabel">
-                <form:label path="level" ><spring:message code="${domain}.${table}.edit.level"/></form:label>
-              </td>
-              <td class="searchfield"><form:input path="level" /></td>
-            </tr>
+          <tr>
+            <td class="searchlabel">
+              <form:label path="name"><spring:message code="${domain}.${table}.edit.name"/></form:label>
+            </td>
+            <td class="searchfield"><form:input path="name" size="30"  maxlength="30"/></td>
+          </tr>
+          <tr>
+            <td class="searchlabel">
+              <form:label path="description" ><spring:message code="${domain}.${table}.edit.description"/></form:label>
+            </td>
+            <td class="searchfield"><form:textarea path="description" cols="50" /></td>
+          </tr>
+          <tr>
+            <td class="searchlabel">
+              <form:label path="shipType" ><spring:message code="${domain}.${table}.edit.type"/></form:label>
+            </td>
+            <td class="searchfield">
+              <form:select path="shipType">
+                <form:options items="${shipTypes}" itemLabel="name" itemValue="ident" />
+              </form:select>
+            </td>
+          </tr>
+          <tr>
+            <td class="searchlabel">
+              <form:label path="faction" ><spring:message code="${domain}.${table}.edit.faction"/></form:label>
+            </td>
+            <td class="searchfield">
+              <form:select path="faction">
+                <form:options items="${factions}" itemLabel="name" itemValue="ident" />
+              </form:select>
+            </td>
+          </tr>
+          <tr>
+            <td class="searchlabel">
+              <form:label path="uniqueness" ><spring:message code="${domain}.${table}.edit.unique"/></form:label>
+            </td>
+            <td class="searchfield">
+              <form:radiobutton path="uniqueness" value="true" label="${yes }"/>
+              <form:radiobutton path="uniqueness" value="false" label="${no }"/>
+            </td>
+          </tr>
+          <tr>
+            <td class="searchlabel">
+              <form:label path="cost" ><spring:message code="${domain}.${table}.edit.cost"/></form:label>
+            </td>
+            <td class="searchfield"><form:input path="cost" /></td>
+          </tr>
+          <tr>
+            <td class="searchlabel">
+              <form:label path="level" ><spring:message code="${domain}.${table}.edit.level"/></form:label>
+            </td>
+            <td class="searchfield"><form:input path="level" /></td>
+          </tr>
+          <tr>
+            <td class="searchlabel">
+              <form:label path="talent" ><spring:message code="${domain}.${table}.edit.talent"/></form:label>
+            </td>
+            <td class="searchfield">
+              <form:radiobutton path="talent" value="true" label="${yes }"/>
+              <form:radiobutton path="talent" value="false" label="${no }"/>
+            </td>
+          </tr>
         </table>
         <div class="${domain}search" align="center">
           <form:button id="submitButton" name="submitButton" ><spring:message code="main.edit.valid"/></form:button>

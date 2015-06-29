@@ -11,10 +11,12 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.raf.xwing.jpa.dao.FactionDao;
 import com.raf.xwing.jpa.dao.PilotDao;
 import com.raf.xwing.jpa.dao.ShipTypeDao;
 import com.raf.xwing.jpa.dao.UpgradeTypeDao;
 import com.raf.xwing.jpa.domain.card.Pilot;
+import com.raf.xwing.jpa.domain.model.Faction;
 import com.raf.xwing.jpa.domain.model.ShipType;
 import com.raf.xwing.jpa.domain.model.UpgradeType;
 import com.raf.xwing.util.Loggable;
@@ -35,6 +37,9 @@ public class PilotCtrl extends AbstractCtrl<PilotDao, PilotForm, Pilot, Integer>
   /** The back page. */
   private static final String BACK_PAGE = "redirect:/xwing/card/pilot/list";
 
+  /** The elite pilote talent ID. */
+  private static final Integer TALENT_ID = Integer.valueOf(1);
+  
   /** The entity dao. */
   @Resource
   private transient PilotDao entityDao;
@@ -47,6 +52,10 @@ public class PilotCtrl extends AbstractCtrl<PilotDao, PilotForm, Pilot, Integer>
   @Resource
   private transient UpgradeTypeDao upgradeTypeDao;
 
+  /** The faction dao. */
+  @Resource
+  private transient FactionDao factionDao;
+  
   /**
    * Constructor.
    */
@@ -80,6 +89,7 @@ public class PilotCtrl extends AbstractCtrl<PilotDao, PilotForm, Pilot, Integer>
     final PilotForm form = new PilotForm();
     initFormEdit(ident, form);
     model.addAttribute("shipTypes", this.shipTypeDao.listAll());
+    model.addAttribute("factions", this.factionDao.listAll());
     return new ModelAndView(EDIT_PAGE, "command", form);
   }
 
@@ -115,6 +125,7 @@ public class PilotCtrl extends AbstractCtrl<PilotDao, PilotForm, Pilot, Integer>
     final PilotForm form = new PilotForm();
     initFormAdd(Integer.valueOf(0), form);
     model.addAttribute("shipTypes", this.shipTypeDao.listAll());
+    model.addAttribute("factions", this.factionDao.listAll());
     model.addAttribute("mode", "add");
     return new ModelAndView(EDIT_PAGE, "command", form);
   }
@@ -135,6 +146,7 @@ public class PilotCtrl extends AbstractCtrl<PilotDao, PilotForm, Pilot, Integer>
   public ModelAndView save(final Model model, @ModelAttribute("pilotForm") final PilotForm form) {
     Pilot entity;
     final ShipType shipType = getShipType(form);
+    final Faction faction = getFaction(form);
     final UpgradeType upgradeType = getUpgradeType(form);
 
     if ("edit".equals(form.getMode())) {
@@ -142,14 +154,16 @@ public class PilotCtrl extends AbstractCtrl<PilotDao, PilotForm, Pilot, Integer>
       form.getEntity(entity);
       entity.setShipType(shipType);
       entity.setUpgradeType(upgradeType);
+      entity.setFaction(faction);
       getEntityDao().merge(entity);
     } else {
       final Long count = getEntityDao().countByExample(null);
       entity = new Pilot();
-      entity.setIdent(Integer.valueOf(count.intValue() + 1));
       form.getEntity(entity);
+      entity.setIdent(Integer.valueOf(count.intValue() + 1));
       entity.setShipType(shipType);
       entity.setUpgradeType(upgradeType);
+      entity.setFaction(faction);
       getEntityDao().persist(entity);
     }
     return new ModelAndView(BACK_PAGE);
@@ -168,6 +182,19 @@ public class PilotCtrl extends AbstractCtrl<PilotDao, PilotForm, Pilot, Integer>
   }
 
   /**
+   * Return the faction.
+   * 
+   * @param form
+   *          the form
+   * @return the faction
+   */
+  private Faction getFaction(final PilotForm form) {
+    final Integer factionId = form.getFaction();
+    return this.factionDao.getById(factionId);
+  }
+
+
+  /**
    * Return the upgrade type (if any).
    * 
    * @param form
@@ -175,10 +202,10 @@ public class PilotCtrl extends AbstractCtrl<PilotDao, PilotForm, Pilot, Integer>
    * @return the upgrade type
    */
   private UpgradeType getUpgradeType(final PilotForm form) {
-    final Integer upgradeTypeId = form.getUpgradeType();
+    final Boolean talent = form.getTalent();
     UpgradeType upgradeType = null;
-    if (upgradeTypeId != null) {
-      upgradeType = this.upgradeTypeDao.getById(upgradeTypeId);
+    if (Boolean.TRUE.equals(talent)) {
+      upgradeType = this.upgradeTypeDao.getById(TALENT_ID);
     }
     return upgradeType;
   }
