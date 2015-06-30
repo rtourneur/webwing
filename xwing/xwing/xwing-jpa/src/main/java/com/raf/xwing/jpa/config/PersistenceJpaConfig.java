@@ -82,7 +82,9 @@ public class PersistenceJpaConfig {
   }
 
   /**
-   * @return
+   * Return the Persistence Exception Translation Processor.
+   * 
+   * @return the Persistence Exception Translation Processor
    */
   @Bean
   public PersistenceExceptionTranslationPostProcessor exceptionTranslation() {

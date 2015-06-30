@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.Join;
+import javax.persistence.criteria.JoinType;
 import javax.persistence.criteria.Order;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
@@ -11,8 +13,8 @@ import javax.persistence.criteria.Root;
 import org.springframework.stereotype.Repository;
 
 import com.raf.xwing.jpa.dao.UpgradeExpansionDao;
+import com.raf.xwing.jpa.domain.card.Upgrade;
 import com.raf.xwing.jpa.domain.card.UpgradeExpansion;
-import com.raf.xwing.jpa.domain.card.UpgradeExpansionPk;
 
 /**
  * DAO implementation for Upgrade Expansion.
@@ -20,7 +22,8 @@ import com.raf.xwing.jpa.domain.card.UpgradeExpansionPk;
  * @author RAF
  */
 @Repository
-public final class UpgradeExpansionDaoImpl extends AbstractDao<UpgradeExpansion, UpgradeExpansionPk> implements UpgradeExpansionDao {
+public final class UpgradeExpansionDaoImpl extends AbstractDao<UpgradeExpansion, Integer> implements
+    UpgradeExpansionDao {
 
   /**
    * Constructor.
@@ -49,6 +52,14 @@ public final class UpgradeExpansionDaoImpl extends AbstractDao<UpgradeExpansion,
   protected Predicate[] getPredicates(final Root<UpgradeExpansion> root, final UpgradeExpansion example) {
 
     final List<Predicate> predicatesList = new ArrayList<>();
+
+    if (example.getUpgrade() != null) {
+      final Upgrade upgrade = example.getUpgrade();
+      if (upgrade.getId() != null) {
+        final Join<UpgradeExpansion, Upgrade> join = root.join("upgrade", JoinType.INNER);
+        predicatesList.add(getEquals(join, "ident", upgrade.getId()));
+      }
+    }
 
     return predicatesList.toArray(new Predicate[predicatesList.size()]);
   }

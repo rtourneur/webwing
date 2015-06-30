@@ -1,5 +1,7 @@
 package com.raf.xwing.web.controller.card;
 
+import java.util.List;
+
 import javax.annotation.Resource;
 import javax.transaction.Transactional;
 
@@ -17,9 +19,8 @@ import com.raf.xwing.jpa.dao.PilotDao;
 import com.raf.xwing.jpa.dao.PilotExpansionDao;
 import com.raf.xwing.jpa.domain.card.Pilot;
 import com.raf.xwing.jpa.domain.card.PilotExpansion;
-import com.raf.xwing.jpa.domain.card.PilotExpansionPk;
 import com.raf.xwing.util.Loggable;
-import com.raf.xwing.web.form.card.UpgradeExpansionForm;
+import com.raf.xwing.web.form.card.EntityExpansionForm;
 
 /**
  * Controller for Upgrade entity.
@@ -79,10 +80,13 @@ public class PilotExpansionCtrl {
   @RequestMapping(value = "card/pilot/expansion/list", method = { RequestMethod.GET, RequestMethod.POST })
   public String list(@RequestParam(value = "id", required = true) final Integer ident, final Model model) {
     final Pilot entity = getEntityDao().getById(ident);
+    final PilotExpansion example = new PilotExpansion();
+    example.setPilot(entity);
+    final List<PilotExpansion> list = this.pilotExpansionDao.findByExample(example);
     model.addAttribute("name", entity.getName());
     model.addAttribute("ident", entity.getIdent());
-    model.addAttribute("count", Integer.valueOf(entity.getExpansions().size()));
-    model.addAttribute("list", entity.getExpansions());
+    model.addAttribute("count", Integer.valueOf(list.size()));
+    model.addAttribute("list", list);
     model.addAttribute("entity", "pilot");
     return LIST_PAGE;
   }
@@ -102,7 +106,7 @@ public class PilotExpansionCtrl {
   @RequestMapping(value = "card/pilot/expansion/edit", method = RequestMethod.POST)
   public ModelAndView edit(@RequestParam(value = "ident", required = true) final Integer ident,
       @RequestParam(value = "id", required = true) final Integer expansionId, final Model model) {
-    final UpgradeExpansionForm form = new UpgradeExpansionForm();
+    final EntityExpansionForm form = new EntityExpansionForm();
     final Pilot entity = getEntityDao().getById(ident);
     model.addAttribute("name", entity.getName());
     model.addAttribute("ident", entity.getIdent());
@@ -150,7 +154,7 @@ public class PilotExpansionCtrl {
   @Loggable
   @RequestMapping(value = "card/pilot/expansion/add", method = RequestMethod.POST)
   public ModelAndView add(@RequestParam(value = "id", required = true) final Integer ident, final Model model) {
-    final UpgradeExpansionForm form = new UpgradeExpansionForm();
+    final EntityExpansionForm form = new EntityExpansionForm();
     final Pilot entity = getEntityDao().getById(ident);
     model.addAttribute("name", entity.getName());
     model.addAttribute("ident", entity.getIdent());
@@ -174,7 +178,7 @@ public class PilotExpansionCtrl {
   @Loggable
   @Transactional
   @RequestMapping(value = "card/pilot/expansion/save", method = RequestMethod.POST)
-  public String save(final Model model, @ModelAttribute("upgradeExpansionForm") final UpgradeExpansionForm form) {
+  public String save(final Model model, @ModelAttribute("upgradeExpansionForm") final EntityExpansionForm form) {
     final Pilot entity = getEntityDao().getById(form.getIdent());
     final Integer expansionId = form.getExpansion();
     PilotExpansion pilotExpansion;
@@ -216,12 +220,10 @@ public class PilotExpansionCtrl {
    * @return the pilot expansion
    */
   private PilotExpansion createExpansion(final Pilot entity, final Integer expansionId) {
-    PilotExpansion pilotExpansion;
-    final PilotExpansionPk pKey = new PilotExpansionPk();
-    pKey.setPilot(entity.getIdent());
-    pKey.setExpansion(expansionId);
-    pilotExpansion = new PilotExpansion();
-    pilotExpansion.setIdent(pKey);
+    final Long count = this.pilotExpansionDao.countByExample(null);
+    final PilotExpansion pilotExpansion = new PilotExpansion();
+    pilotExpansion.setIdent(Integer.valueOf(count.intValue() + 1));
+    pilotExpansion.setPilot(entity);
     pilotExpansion.setExpansion(this.expansionDao.getById(expansionId));
     entity.getExpansions().add(pilotExpansion);
     return pilotExpansion;
@@ -239,7 +241,6 @@ public class PilotExpansionCtrl {
     final PilotExpansion toDelete = findExpansion(entity, expansionId);
     if (toDelete != null) {
       this.pilotExpansionDao.remove(toDelete);
-      // entity.getExpansions().remove(toDelete);
     }
   }
 
@@ -253,12 +254,10 @@ public class PilotExpansionCtrl {
    * @return the upgrade expansion
    */
   private PilotExpansion findExpansion(final Pilot entity, final Integer expansionId) {
-    final PilotExpansionPk pKey = new PilotExpansionPk();
-    pKey.setPilot(entity.getIdent());
-    pKey.setExpansion(expansionId);
     PilotExpansion expansion = null;
     for (final PilotExpansion pilotExpansion : entity.getExpansions()) {
-      if (pKey.equals(pilotExpansion.getId())) {
+      if (pilotExpansion.getPilot() != null && pilotExpansion.getPilot().equals(entity)
+          && pilotExpansion.getExpansion() != null && expansionId.equals(pilotExpansion.getExpansion().getId())) {
         expansion = pilotExpansion;
         break;
       }

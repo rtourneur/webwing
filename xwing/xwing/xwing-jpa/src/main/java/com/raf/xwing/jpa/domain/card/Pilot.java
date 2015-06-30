@@ -64,7 +64,7 @@ public class Pilot extends AbstractDescriptionEntity<Integer> {
 
   /** The list of expansions. */
   @OneToMany(fetch = EAGER)
-  @JoinColumn(name = "pilot_id", referencedColumnName = "ID")
+  @JoinColumn(name = "PILOT_ID", referencedColumnName = "ID")
   @Fetch(FetchMode.SUBSELECT)
   private List<PilotExpansion> expansions;
 

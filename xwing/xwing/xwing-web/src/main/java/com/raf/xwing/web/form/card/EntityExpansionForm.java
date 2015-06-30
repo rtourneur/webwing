@@ -7,7 +7,7 @@ import com.raf.xwing.web.form.AbstractEditForm;
  * 
  * @author RAF
  */
-public final class UpgradeExpansionForm extends AbstractEditForm {
+public final class EntityExpansionForm extends AbstractEditForm {
 
   /** Serial UID. */
   private static final long serialVersionUID = 1L;
@@ -27,7 +27,7 @@ public final class UpgradeExpansionForm extends AbstractEditForm {
   /**
    * Constructor.
    */
-  public UpgradeExpansionForm() {
+  public EntityExpansionForm() {
     super();
   }
 

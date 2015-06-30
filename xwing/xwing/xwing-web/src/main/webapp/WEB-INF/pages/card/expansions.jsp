@@ -60,8 +60,8 @@
               </tr>
               <c:forEach items="${list}" var="entity" varStatus="status">
                 <tr class="text ${status.index % 2 == 0 ? 'cardroweven' : 'cardrowodd'}">
-                  <td><img title="<spring:message code="main.list.edit"/>" src="<c:url value='/resources/img/pencil-add-icon.png'/>" class="smallicon" onclick="javascript:actionimg('editform', '${entity.id.expansion}', 'edit')"/></td>
-                  <td><img title="<spring:message code="main.list.remove"/>" src="<c:url value='/resources/img/pencil-delete-icon.png'/>" class="smallicon" onclick="javascript:actionimg('editform', '${entity.id.expansion}', 'delete')"/></td>
+                  <td><img title="<spring:message code="main.list.edit"/>" src="<c:url value='/resources/img/pencil-add-icon.png'/>" class="smallicon" onclick="javascript:actionimg('editform', '${entity.expansion.id}', 'edit')"/></td>
+                  <td><img title="<spring:message code="main.list.remove"/>" src="<c:url value='/resources/img/pencil-delete-icon.png'/>" class="smallicon" onclick="javascript:actionimg('editform', '${entity.expansion.id}', 'delete')"/></td>
                   <td>${entity.expansion.name}</td>
                   <td>${entity.quantity}</td>
                   <td>${entity.expansion.wave}</td>

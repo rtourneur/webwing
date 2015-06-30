@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.Join;
+import javax.persistence.criteria.JoinType;
 import javax.persistence.criteria.Order;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
@@ -11,8 +13,8 @@ import javax.persistence.criteria.Root;
 import org.springframework.stereotype.Repository;
 
 import com.raf.xwing.jpa.dao.PilotExpansionDao;
+import com.raf.xwing.jpa.domain.card.Pilot;
 import com.raf.xwing.jpa.domain.card.PilotExpansion;
-import com.raf.xwing.jpa.domain.card.PilotExpansionPk;
 
 /**
  * DAO implementation for Pilot Expansion.
@@ -20,7 +22,7 @@ import com.raf.xwing.jpa.domain.card.PilotExpansionPk;
  * @author RAF
  */
 @Repository
-public final class PilotExpansionDaoImpl extends AbstractDao<PilotExpansion, PilotExpansionPk> implements PilotExpansionDao {
+public final class PilotExpansionDaoImpl extends AbstractDao<PilotExpansion, Integer> implements PilotExpansionDao {
 
   /**
    * Constructor.
@@ -49,6 +51,14 @@ public final class PilotExpansionDaoImpl extends AbstractDao<PilotExpansion, Pil
   protected Predicate[] getPredicates(final Root<PilotExpansion> root, final PilotExpansion example) {
 
     final List<Predicate> predicatesList = new ArrayList<>();
+
+    if (example.getPilot() != null) {
+      final Pilot pilot = example.getPilot();
+      if (pilot.getId() != null) {
+        final Join<PilotExpansion, Pilot> join = root.join("pilot", JoinType.INNER);
+        predicatesList.add(getEquals(join, "ident", pilot.getId()));
+      }
+    }
 
     return predicatesList.toArray(new Predicate[predicatesList.size()]);
   }
