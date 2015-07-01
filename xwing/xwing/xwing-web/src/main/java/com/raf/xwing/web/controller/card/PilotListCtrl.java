@@ -1,7 +1,11 @@
 package com.raf.xwing.web.controller.card;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.SortedSet;
+import java.util.TreeSet;
 
 import javax.annotation.Resource;
 
@@ -11,6 +15,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.bind.support.SessionStatus;
 import org.springframework.web.servlet.ModelAndView;
@@ -20,10 +25,13 @@ import com.raf.xwing.jpa.dao.PilotDao;
 import com.raf.xwing.jpa.dao.ShipTypeDao;
 import com.raf.xwing.jpa.domain.card.Pilot;
 import com.raf.xwing.jpa.domain.card.PilotExpansion;
+import com.raf.xwing.jpa.domain.model.Dial;
 import com.raf.xwing.jpa.domain.model.Expansion;
 import com.raf.xwing.jpa.domain.model.ShipType;
 import com.raf.xwing.util.Loggable;
 import com.raf.xwing.web.controller.AbstractListCtrl;
+import com.raf.xwing.web.controller.dto.DialDtoComparator;
+import com.raf.xwing.web.dto.DialDto;
 import com.raf.xwing.web.form.card.PilotListForm;
 
 /**
@@ -41,6 +49,12 @@ public class PilotListCtrl extends AbstractListCtrl<PilotDao, Pilot, PilotListFo
   /** The list page. */
   private static final String LIST_PAGE = "card/pilots";
 
+  /** The dial page. */
+  private static final String DIAL_PAGE = "card/dial";
+
+  /** The dial map. */
+  private static final Map<String, Integer> DIAL_MAP = new HashMap<>();
+
   /** The entity dao. */
   @Resource
   private transient PilotDao entityDao;
@@ -52,6 +66,17 @@ public class PilotListCtrl extends AbstractListCtrl<PilotDao, Pilot, PilotListFo
   /** The expansion dao. */
   @Resource
   private transient ExpansionDao expansionDao;
+
+  static {
+    DIAL_MAP.put("Turn Left", Integer.valueOf(0));
+    DIAL_MAP.put("Bank Left", Integer.valueOf(1));
+    DIAL_MAP.put("Straight", Integer.valueOf(2));
+    DIAL_MAP.put("Bank Right", Integer.valueOf(3));
+    DIAL_MAP.put("Turn Right", Integer.valueOf(4));
+    DIAL_MAP.put("Koiogran Turn", Integer.valueOf(5));
+    DIAL_MAP.put("Segnors Left", Integer.valueOf(0));
+    DIAL_MAP.put("Segnors Right", Integer.valueOf(4));
+  }
 
   /**
    * Constructor.
@@ -136,6 +161,50 @@ public class PilotListCtrl extends AbstractListCtrl<PilotDao, Pilot, PilotListFo
   public String back(final SessionStatus status) {
     status.setComplete();
     return HOME_PAGE;
+  }
+
+  /**
+   * Display the dial for the ship type.
+   * 
+   * @param ident
+   *          the identifier
+   * @param model
+   *          the model
+   * @return the dial page
+   */
+  @Loggable
+  @RequestMapping(value = "card/pilot/dial", method = RequestMethod.POST)
+  public String dial(@RequestParam(value = "id", required = true) final Integer ident, final Model model) {
+    final Pilot pilot = getEntityDao().getById(ident);
+    final ShipType entity = pilot.getShipType();
+    model.addAttribute("entity", entity);
+    final Map<Integer, DialDto> map = new HashMap<>();
+    final SortedSet<DialDto> set = new TreeSet<>(new DialDtoComparator());
+    Integer speed;
+    DialDto dialDto;
+    String name;
+    String icon;
+    Integer index;
+    for (final Dial dial : entity.getDials()) {
+      speed = Integer.valueOf(dial.getSpeed());
+      if (map.containsKey(speed)) {
+        dialDto = map.get(speed);
+      } else {
+        dialDto = new DialDto();
+        dialDto.setSpeed(speed.intValue());
+        map.put(speed, dialDto);
+        set.add(dialDto);
+      }
+      name = dial.getManeuverType().getName();
+      index = DIAL_MAP.get(name);
+      if (index != null) {
+        icon = dial.getManeuverType().getIcon();
+        dialDto.getManeuvers()[index.intValue()] = icon;
+      }
+    }
+    model.addAttribute("list", set);
+
+    return DIAL_PAGE;
   }
 
   /**

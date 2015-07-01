@@ -165,43 +165,43 @@ div.header {
 
 /* Card */
 .card {
-	background-color: #a5d79d;
+	background-color: #d8d599;
 }
 
 .cardlist {
 	width: 80%;
 	margin-left: 10%;
 	margin-right: 10%;
-	background-color: #306929;
+	background-color: #454209;
 }
 
 .cardpage {
 	width: 80%;
 	margin-left: 10%;
 	margin-right: 10%;
-	background-color: #306929;
+	background-color: #454209;
 	color: white;
 }
 
 .cardpage a:Hover {
-	color: #306929;
+	color: #454209;
 }
 
 .cardpage a {
-	color: #306929;
+	color: #454209;
 }
 
 .cardrowodd {
-	background-color: #a4d99d;
+	background-color: #959e42;
 }
 
 .cardroweven {
-	background-color: #5bbb51;
+	background-color: #968c2A;
 }
 
 .cardsearch {
 	width: 80%;
 	margin-left: 10%;
 	margin-right: 10%;
-	background-color: #a5d79d;
+	background-color: #d8d599;
 }

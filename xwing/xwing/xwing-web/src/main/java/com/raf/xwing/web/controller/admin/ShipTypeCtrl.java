@@ -47,7 +47,7 @@ public class ShipTypeCtrl extends AbstractListCtrl<ShipTypeDao, ShipType, ShipTy
   /** The dial page. */
   private static final String DIAL_PAGE = "admin/dial";
 
-  /** THe dial map. */
+  /** The dial map. */
   private static final Map<String, Integer> DIAL_MAP = new HashMap<>();
 
   /** The entity dao. */
