@@ -1,0 +1,42 @@
+---
+# tasks file for init
+- debug: var="{{home_}}"
+
+# Directory for docker
+- name: create docker directory
+  file:
+    path: "{{docker_home}}"
+    state: directory
+
+# Base directory for image repository
+- name: create repo directory
+  file:
+    path: "{{repo_dir}}"
+    state: directory
+
+# Base directory for registry datas
+- name: create registry data
+  file:
+    path: "{{docker_home}}/registry_data"
+    state: directory
+  tags: [hub]
+
+# Directory for config files
+- name: create certs directory
+  file:
+    path: "{{docker_home}}/certs"
+    state: directory
+  tags: [hub]
+
+# Copy the config files
+- name: copy certs
+  copy: 
+    src: "{{item}}"
+    dest: "{{docker_home}}/certs/{{item}}"
+  with_items:
+  - registry.crt
+  - registry.conf
+  - registry.key
+  - registry.password
+  tags: [hub]
+  notify: stop nginx container

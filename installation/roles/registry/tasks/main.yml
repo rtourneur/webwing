@@ -1,0 +1,41 @@
+---
+# tasks file for registry
+
+- name: create registry direcory
+  file:
+    path: "{{registry_dir}}"
+    state: directory
+  tags: [registry]
+
+- name: copy ssh keys to registry role
+  command: "cp -u {{item}} {{registry_dir}}"
+  with_items:
+    - ~/.ssh/id_rsa.pub
+  tags: [registry]
+  when: generated.stdout == "true"
+
+- name: copy registry exec file
+  copy: 
+    src: registry.sh
+    dest: "{{registry_dir}}/registry.sh"
+    mode: a+x
+  notify:
+  - stop registry container 
+  - check or build registry image
+  tags: [registry]
+
+- name: copy registry dockerfile
+  copy: 
+    src: Dockerfile
+    dest: "{{registry_dir}}/Dockerfile"
+  notify:
+  - stop registry container 
+  - check or build registry image
+  tags: [registry]
+
+- name: check registry image
+  docker_image: 
+    path: "{{registry_dir}}"
+    name: "polymont/registry" 
+    state: present
+  tags: [registry]

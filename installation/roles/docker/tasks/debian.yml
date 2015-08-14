@@ -1,0 +1,33 @@
+# tasks file for docker / debian
+
+- name: add backports
+  apt_repository: 
+    repo: "deb http://http.debian.net/debian {{ansible_distribution_release}}-backports main"
+    state: present
+  when: ansible_distribution == "Debian" and
+          (ansible_distribution_release == "jessie" or ansible_distribution_release == "wheezy")
+  tags: [docker]
+
+- name: install docker on debian
+  apt: 
+    name: docker.io
+    state: present
+  when: ansible_distribution == "Debian" and
+          (ansible_distribution_release == "jessie" or ansible_distribution_release == "wheezy")
+  tags: [docker]
+
+- name: easy install python-pip on debian
+  easy_install: 
+    name: pip
+  when: ansible_distribution == "Debian" and
+          (ansible_distribution_release == "jessie" or ansible_distribution_release == "wheezy")
+  tags: [docker]
+
+- name: install python-pip on debian
+  apt:
+    name: python-pip
+    state: present
+  when: ansible_distribution == "Debian" and
+          (ansible_distribution_release == "jessie" or ansible_distribution_release == "wheezy")
+  tags: [docker]
+

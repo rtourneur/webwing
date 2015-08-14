@@ -1,0 +1,5 @@
+# execute: ansible-playbook install_platforme.yml --ask-sudo-pass
+- hosts: install-machines
+  roles:
+    - {role: install}
+    - {role: docker}

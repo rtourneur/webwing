@@ -1,0 +1,105 @@
+---
+# tasks file for jenkins
+
+- name: create jenkins direcory
+  file:
+    path: "{{jenkins_dir}}"
+    state: directory
+  tags: [jenkins]
+
+- name: create jenkins home
+  file:
+    path: "{{docker_home}}/jenkins_home"
+    state: directory
+    mode: a+wx
+  tags: [jenkins]
+
+- name: copy jenkins dockerfile
+  template: 
+    src: Dockerfile
+    dest: "{{jenkins_dir}}/Dockerfile"
+  notify: 
+  - stop jenkins container
+  - check or build jenkins image
+  tags: [jenkins]
+
+- name: copy jenkins files
+  copy: 
+    src: "{{item}}"
+    dest: "{{jenkins_dir}}/{{item}}"
+  with_items:
+  - active.txt
+  - init.groovy
+  notify: 
+  - stop jenkins container
+  - check or build jenkins image
+  tags: [jenkins]
+
+- name: copy jenkins sh files
+  copy: 
+    src: "{{item}}"
+    dest: "{{jenkins_dir}}/{{item}}"
+    mode: a+x
+  with_items:
+  - jenkins.sh
+  - plugins.sh
+  - start.sh
+  notify: 
+  - stop jenkins container
+  - check or build jenkins image
+  tags: [jenkins]
+
+- name: check jenkins image
+  docker_image: 
+    path: "{{jenkins_dir}}"
+    name: "polymont/jenkins"
+    state: present
+  tags: [jenkins]
+
+- name: start jenkins container
+  docker:
+    name: jenkins
+    image: "polymont/jenkins"
+    state: started
+    ports:
+    - "127.0.0.1:9080:8080"
+    - "{{jenkins_ssh_port}}:22"
+    volumes:
+    - "{{docker_home}}/jenkins_home:/var/jenkins_home:rw"
+    docker_api_version: 1.18
+  notify:
+  - stop nginx container
+  tags: [jenkins]
+
+- name : copy groovy scripts
+  template: 
+    src: "{{item}}"
+    dest: "~/{{item}}"
+  with_items:
+  - admin.groovy
+  - maven.groovy
+#  - git.groovy
+  - jdk.groovy
+  tags: [jenkins]
+
+- name : wait jenkins initialisation
+  pause:
+    seconds: "30"
+  tags: [jenkins]
+
+- name : configure Jenkins
+  script: "configure.sh {{jenkins_admin_password}}"
+  tags: [jenkins]
+
+- name : remove groovy scripts
+  file: 
+    path: "~/{{item}}"
+    state: absent
+  with_items:
+  - admin.groovy
+  - maven.groovy
+#  - git.groovy
+  - jdk.groovy
+  tags: [jenkins]
+
+  
