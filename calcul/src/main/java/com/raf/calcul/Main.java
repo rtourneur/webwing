@@ -2,7 +2,6 @@ package com.raf.calcul;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -16,6 +15,8 @@ import org.apache.commons.cli.ParseException;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import com.raf.calcul.impl.ElementImpl;
 
 /**
  * Classe principale pour le lancement du traitement.
@@ -128,7 +129,7 @@ public final class Main {
    * @return l'élément
    */
   private static Element creeElement(final int index, final CategorieElement categorie) {
-    final Element element = new Element();
+    final Element element = new ElementImpl();
     element.setIdent(categorie.name() + index);
     element.setDesc("Elément " + categorie.name() + " numéro " + index);
     element.setCategorie(categorie);
@@ -150,7 +151,7 @@ public final class Main {
     final int size = toNote.size();
     Map<Element, BigDecimal> notes;
     List<Element> temp;
-    for (Element element : prime) {
+    for (final Element element : prime) {
       if (LOGGER.isInfoEnabled()) {
         LOGGER.info("Notation : traitement de l'élément" + element.getIdent());
       }

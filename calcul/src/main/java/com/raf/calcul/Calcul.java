@@ -122,12 +122,21 @@ public final class Calcul {
       duree = System.currentTimeMillis() - time;
       LOGGER.debug("Durée du traitement 2 : " + duree);
     }
-    // Traitement 3 : Calcule la note de tous les couples possibles et crée les couples par note de couple décroissante.
+    // Traitement 3 : Calcule la note de tous les couples possibles par addition des notes et crée les couples par note
+    // de couple décroissante.
     time = System.currentTimeMillis();
     traitement3();
     if (LOGGER.isDebugEnabled()) {
       duree = System.currentTimeMillis() - time;
       LOGGER.debug("Durée du traitement 3 : " + duree);
+    }
+    // Traitement 3 : Calcule la note de tous les couples possibles par multiplication des notes et crée les couples par
+    // note de couple décroissante.
+    time = System.currentTimeMillis();
+    traitement4();
+    if (LOGGER.isDebugEnabled()) {
+      duree = System.currentTimeMillis() - time;
+      LOGGER.debug("Durée du traitement 4 : " + duree);
     }
   }
 
@@ -141,11 +150,13 @@ public final class Calcul {
     Map<Element, BigDecimal> notations;
     Couple couple;
     BigDecimal total = BigDecimal.ZERO;
-    LOGGER_TRAITEMENT.info("***** Traitement 1 *****");
+    if (LOGGER_TRAITEMENT.isInfoEnabled()) {
+      LOGGER_TRAITEMENT.info("***** Traitement 1 *****");
+    }
     final List<Couple> couples = new ArrayList<Couple>(getNbCouples());
     final List<Element> eltAffectes = new ArrayList<Element>();
     notations = CalculUtils.calculNotations(tableNotations);
-    for (Entry<Element, BigDecimal> eltNote : notations.entrySet()) {
+    for (final Entry<Element, BigDecimal> eltNote : notations.entrySet()) {
       LOGGER_TRAITEMENT
           .info("Notation totale de l'élément " + eltNote.getKey().getIdent() + " : " + eltNote.getValue());
     }
@@ -156,8 +167,10 @@ public final class Calcul {
       BigDecimal bestNote = null;
       Element coupleElement = null;
       BigDecimal coupleNote = null;
-      LOGGER_TRAITEMENT.info("** Itération " + index);
-      for (Entry<Element, BigDecimal> eltNote : notations.entrySet()) {
+      if (LOGGER_TRAITEMENT.isInfoEnabled()) {
+        LOGGER_TRAITEMENT.info("** Itération " + index);
+      }
+      for (final Entry<Element, BigDecimal> eltNote : notations.entrySet()) {
         currentElt = eltNote.getKey();
         if (!eltAffectes.contains(currentElt)) {
           currentNote = eltNote.getValue();
@@ -177,12 +190,16 @@ public final class Calcul {
           }
         }
       }
-      LOGGER_TRAITEMENT.info("-> Meilleure notation totale : l'élément " + bestElement.getIdent() + " : " + bestNote);
-      for (Entry<Element, BigDecimal> eltNote : bestElement.getNotations().entrySet()) {
+      if (LOGGER_TRAITEMENT.isInfoEnabled()) {
+        LOGGER_TRAITEMENT.info("-> Meilleure notation totale : l'élément " + bestElement.getIdent() + " : " + bestNote);
+      }
+      for (final Entry<Element, BigDecimal> eltNote : bestElement.getNotations().entrySet()) {
         currentElt = eltNote.getKey();
         if (!eltAffectes.contains(currentElt)) {
           currentNote = eltNote.getValue();
-          LOGGER_TRAITEMENT.debug("Notation de l'élément " + currentElt.getIdent() + " : " + eltNote.getValue());
+          if (LOGGER_TRAITEMENT.isDebugEnabled()) {
+            LOGGER_TRAITEMENT.debug("Notation de l'élément " + currentElt.getIdent() + " : " + eltNote.getValue());
+          }
           if (coupleNote == null) {
             coupleElement = currentElt;
             coupleNote = currentNote;
@@ -194,17 +211,23 @@ public final class Calcul {
           }
         }
       }
-      LOGGER_TRAITEMENT.info("-> Couple associé : l'élément " + coupleElement.getIdent() + " : " + coupleNote);
+      if (LOGGER_TRAITEMENT.isInfoEnabled()) {
+        LOGGER_TRAITEMENT.info("-> Couple associé : l'élément " + coupleElement.getIdent() + " : " + coupleNote);
+      }
       couple = creeCouple(bestElement, coupleElement);
-      LOGGER_TRAITEMENT.info(">>> Meilleur couple : " + couple.getPrimary().getIdent() + "("
-          + couple.getPrimaryNote() + ") - " + couple.getSecondary().getIdent() + "("
-          + couple.getSecondaryNote() + ")");
+      if (LOGGER_TRAITEMENT.isInfoEnabled()) {
+        LOGGER_TRAITEMENT.info(">>> Meilleur couple : " + couple.getPrimary().getIdent() + "("
+            + couple.getPrimaryNote() + ") - " + couple.getSecondary().getIdent() + "(" + couple.getSecondaryNote()
+            + ")");
+      }
       couples.add(couple);
       total = total.add(couple.getPrimaryNote()).add(couple.getSecondaryNote());
       eltAffectes.add(bestElement);
       eltAffectes.add(coupleElement);
     }
-    LOGGER_TRAITEMENT.info("** Valeur totale de l'affectation : " + total);
+    if (LOGGER_TRAITEMENT.isInfoEnabled()) {
+      LOGGER_TRAITEMENT.info("** Valeur totale de l'affectation : " + total);
+    }
   }
 
   /**
@@ -218,7 +241,9 @@ public final class Calcul {
     Map<Element, BigDecimal> notations;
     Couple couple;
     BigDecimal total = BigDecimal.ZERO;
-    LOGGER_TRAITEMENT.info("***** Traitement 2 *****");
+    if (LOGGER_TRAITEMENT.isInfoEnabled()) {
+      LOGGER_TRAITEMENT.info("***** Traitement 2 *****");
+    }
     final List<Couple> couples = new ArrayList<Couple>(getNbCouples());
     final List<Element> eltAffectes = new ArrayList<Element>();
     Element currentElt;
@@ -228,13 +253,17 @@ public final class Calcul {
       BigDecimal bestNote = null;
       Element coupleElement = null;
       BigDecimal coupleNote = null;
-      LOGGER_TRAITEMENT.info("** Itération " + index);
-      notations = CalculUtils.calculNotations(tableNotations, eltAffectes);
-      for (Entry<Element, BigDecimal> eltNote : notations.entrySet()) {
-        LOGGER_TRAITEMENT.debug("Notation totale de l'élément " + eltNote.getKey().getIdent() + " : "
-            + eltNote.getValue());
+      if (LOGGER_TRAITEMENT.isInfoEnabled()) {
+        LOGGER_TRAITEMENT.info("** Itération " + index);
       }
-      for (Entry<Element, BigDecimal> eltNote : notations.entrySet()) {
+      notations = CalculUtils.calculNotations(tableNotations, eltAffectes);
+      for (final Entry<Element, BigDecimal> eltNote : notations.entrySet()) {
+        if (LOGGER_TRAITEMENT.isDebugEnabled()) {
+          LOGGER_TRAITEMENT.debug("Notation totale de l'élément " + eltNote.getKey().getIdent() + " : "
+              + eltNote.getValue());
+        }
+      }
+      for (final Entry<Element, BigDecimal> eltNote : notations.entrySet()) {
         currentElt = eltNote.getKey();
         if (!eltAffectes.contains(currentElt)) {
           currentNote = eltNote.getValue();
@@ -254,12 +283,16 @@ public final class Calcul {
           }
         }
       }
-      LOGGER_TRAITEMENT.info("-> Meilleure notation totale : l'élément " + bestElement.getIdent() + " : " + bestNote);
-      for (Entry<Element, BigDecimal> eltNote : bestElement.getNotations().entrySet()) {
+      if (LOGGER_TRAITEMENT.isInfoEnabled()) {
+        LOGGER_TRAITEMENT.info("-> Meilleure notation totale : l'élément " + bestElement.getIdent() + " : " + bestNote);
+      }
+      for (final Entry<Element, BigDecimal> eltNote : bestElement.getNotations().entrySet()) {
         currentElt = eltNote.getKey();
         if (!eltAffectes.contains(currentElt)) {
           currentNote = eltNote.getValue();
-          LOGGER_TRAITEMENT.debug("Notation de l'élément " + currentElt.getIdent() + " : " + eltNote.getValue());
+          if (LOGGER_TRAITEMENT.isDebugEnabled()) {
+            LOGGER_TRAITEMENT.debug("Notation de l'élément " + currentElt.getIdent() + " : " + eltNote.getValue());
+          }
           if (coupleNote == null) {
             coupleElement = currentElt;
             coupleNote = currentNote;
@@ -271,29 +304,40 @@ public final class Calcul {
           }
         }
       }
-      LOGGER_TRAITEMENT.info("-> Couple associé : l'élément " + coupleElement.getIdent() + " : " + coupleNote);
+      if (LOGGER_TRAITEMENT.isInfoEnabled()) {
+        LOGGER_TRAITEMENT.info("-> Couple associé : l'élément " + coupleElement.getIdent() + " : " + coupleNote);
+      }
       couple = creeCouple(bestElement, coupleElement);
-      LOGGER_TRAITEMENT.info(">>> Meilleur couple : " + couple.getPrimary().getIdent() + "("
-          + couple.getPrimaryNote() + ") - " + couple.getSecondary().getIdent() + "("
-          + couple.getSecondaryNote() + ")");
+      if (LOGGER_TRAITEMENT.isInfoEnabled()) {
+        LOGGER_TRAITEMENT.info(">>> Meilleur couple : " + couple.getPrimary().getIdent() + "("
+            + couple.getPrimaryNote() + ") - " + couple.getSecondary().getIdent() + "(" + couple.getSecondaryNote()
+            + ")");
+      }
       couples.add(couple);
       total = total.add(couple.getPrimaryNote()).add(couple.getSecondaryNote());
       eltAffectes.add(bestElement);
       eltAffectes.add(coupleElement);
     }
-    LOGGER_TRAITEMENT.info("** Valeur totale de l'affectation : " + total);
+    if (LOGGER_TRAITEMENT.isInfoEnabled()) {
+      LOGGER_TRAITEMENT.info("** Valeur totale de l'affectation : " + total);
+    }
   }
 
+  /**
+   * Traitement 3.
+   */
   public void traitement3() {
     Couple couple;
     BigDecimal total = BigDecimal.ZERO;
-    LOGGER_TRAITEMENT.info("***** Traitement 3 *****");
+    if (LOGGER_TRAITEMENT.isInfoEnabled()) {
+      LOGGER_TRAITEMENT.info("***** Traitement 3 *****");
+    }
     final List<Couple> couples = new ArrayList<Couple>(getNbCouples());
     final List<Element> eltAffectes = new ArrayList<Element>();
     final List<Couple> travail = new ArrayList<Couple>((int) Math.pow(getNbCouples(), 2));
     // Initialise la liste des couples de travail
-    for (Element element : getPrimary()) {
-      for (Entry<Element, BigDecimal> eltCouple : element.getNotations().entrySet()) {
+    for (final Element element : getPrimary()) {
+      for (final Entry<Element, BigDecimal> eltCouple : element.getNotations().entrySet()) {
         couple = creeCouple(element, eltCouple.getKey());
         travail.add(couple);
       }
@@ -302,8 +346,10 @@ public final class Calcul {
     for (int index = 1; index <= getNbCouples(); index++) {
       Couple bestCouple = null;
       BigDecimal bestNote = null;
-      LOGGER_TRAITEMENT.info("** Itération " + index);
-      for (Couple currentCouple : travail) {
+      if (LOGGER_TRAITEMENT.isInfoEnabled()) {
+        LOGGER_TRAITEMENT.info("** Itération " + index);
+      }
+      for (final Couple currentCouple : travail) {
         if (!eltAffectes.contains(currentCouple.getPrimary()) && !eltAffectes.contains(currentCouple.getSecondary())) {
           currentNote = currentCouple.getPrimaryNote().add(currentCouple.getSecondaryNote());
           if (bestNote == null || bestCouple == null) {
@@ -323,15 +369,80 @@ public final class Calcul {
           }
         }
       }
-      LOGGER_TRAITEMENT.info(">>> Meilleur couple : " + bestCouple.getPrimary().getIdent() + "("
-          + bestCouple.getPrimaryNote() + ") - " + bestCouple.getSecondary().getIdent() + "("
-          + bestCouple.getSecondaryNote() + ")");
+      if (LOGGER_TRAITEMENT.isInfoEnabled()) {
+        LOGGER_TRAITEMENT.info(">>> Meilleur couple : " + bestCouple.getPrimary().getIdent() + "("
+            + bestCouple.getPrimaryNote() + ") - " + bestCouple.getSecondary().getIdent() + "("
+            + bestCouple.getSecondaryNote() + ")");
+      }
       couples.add(bestCouple);
       total = total.add(bestCouple.getPrimaryNote()).add(bestCouple.getSecondaryNote());
       eltAffectes.add(bestCouple.getPrimary());
       eltAffectes.add(bestCouple.getSecondary());
     }
-    LOGGER_TRAITEMENT.info("** Valeur totale de l'affectation : " + total);
+    if (LOGGER_TRAITEMENT.isInfoEnabled()) {
+      LOGGER_TRAITEMENT.info("** Valeur totale de l'affectation : " + total);
+    }
+  }
+
+  /**
+   * Traitement 4.
+   */
+  public void traitement4() {
+    Couple couple;
+    BigDecimal total = BigDecimal.ZERO;
+    if (LOGGER_TRAITEMENT.isInfoEnabled()) {
+      LOGGER_TRAITEMENT.info("***** Traitement 3 *****");
+    }
+    final List<Couple> couples = new ArrayList<Couple>(getNbCouples());
+    final List<Element> eltAffectes = new ArrayList<Element>();
+    final List<Couple> travail = new ArrayList<Couple>((int) Math.pow(getNbCouples(), 2));
+    // Initialise la liste des couples de travail
+    for (final Element element : getPrimary()) {
+      for (final Entry<Element, BigDecimal> eltCouple : element.getNotations().entrySet()) {
+        couple = creeCouple(element, eltCouple.getKey());
+        travail.add(couple);
+      }
+    }
+    BigDecimal currentNote;
+    for (int index = 1; index <= getNbCouples(); index++) {
+      Couple bestCouple = null;
+      BigDecimal bestNote = null;
+      if (LOGGER_TRAITEMENT.isInfoEnabled()) {
+        LOGGER_TRAITEMENT.info("** Itération " + index);
+      }
+      for (final Couple currentCouple : travail) {
+        if (!eltAffectes.contains(currentCouple.getPrimary()) && !eltAffectes.contains(currentCouple.getSecondary())) {
+          currentNote = currentCouple.getPrimaryNote().multiply(currentCouple.getSecondaryNote());
+          if (bestNote == null || bestCouple == null) {
+            bestCouple = currentCouple;
+            bestNote = currentNote;
+          } else {
+            if (currentNote.compareTo(bestNote) > 0) {
+              bestCouple = currentCouple;
+              bestNote = currentNote;
+            } else if (currentNote.compareTo(bestNote) == 0
+                && (bestCouple.getPrimary().equals(currentCouple.getPrimary()) || bestCouple.getSecondary().equals(
+                    currentCouple.getSecondary()))
+                && currentCouple.getSecondaryNote().compareTo(bestCouple.getSecondaryNote()) > 0) {
+              bestCouple = currentCouple;
+              bestNote = currentNote;
+            }
+          }
+        }
+      }
+      if (LOGGER_TRAITEMENT.isInfoEnabled()) {
+        LOGGER_TRAITEMENT.info(">>> Meilleur couple : " + bestCouple.getPrimary().getIdent() + "("
+            + bestCouple.getPrimaryNote() + ") - " + bestCouple.getSecondary().getIdent() + "("
+            + bestCouple.getSecondaryNote() + ")");
+      }
+      couples.add(bestCouple);
+      total = total.add(bestCouple.getPrimaryNote()).add(bestCouple.getSecondaryNote());
+      eltAffectes.add(bestCouple.getPrimary());
+      eltAffectes.add(bestCouple.getSecondary());
+    }
+    if (LOGGER_TRAITEMENT.isInfoEnabled()) {
+      LOGGER_TRAITEMENT.info("** Valeur totale de l'affectation : " + total);
+    }
   }
 
   /**
@@ -358,8 +469,10 @@ public final class Calcul {
     couple.setPrimaryNote(secondaryCouple.getNotations().get(primaryCouple));
     couple.setSecondary(secondaryCouple);
     couple.setSecondaryNote(primaryCouple.getNotations().get(secondaryCouple));
-    LOGGER_TRAITEMENT.debug(">>> le couple : " + couple.getPrimary().getIdent() + "(" + couple.getPrimaryNote() + ") - "
-        + couple.getSecondary().getIdent() + "(" + couple.getSecondaryNote() + ")");
+    if (LOGGER_TRAITEMENT.isDebugEnabled()) {
+      LOGGER_TRAITEMENT.debug(">>> le couple : " + couple.getPrimary().getIdent() + "(" + couple.getPrimaryNote()
+          + ") - " + couple.getSecondary().getIdent() + "(" + couple.getSecondaryNote() + ")");
+    }
     return couple;
   }
 }

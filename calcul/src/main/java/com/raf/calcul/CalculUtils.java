@@ -72,10 +72,10 @@ public final class CalculUtils {
     Map<Element, BigDecimal> eltNotations;
     Element current;
     BigDecimal note;
-    for (Entry<Element, Map<Element, BigDecimal>> entry : tableNotations.entrySet()) {
+    for (final Entry<Element, Map<Element, BigDecimal>> entry : tableNotations.entrySet()) {
       if (!eltAffectes.contains(entry.getKey())) {
         eltNotations = entry.getValue();
-        for (Entry<Element, BigDecimal> eltNote : eltNotations.entrySet()) {
+        for (final Entry<Element, BigDecimal> eltNote : eltNotations.entrySet()) {
           current = eltNote.getKey();
           if (!eltAffectes.contains(current)) {
             note = eltNote.getValue();
@@ -90,17 +90,26 @@ public final class CalculUtils {
     return notations;
   }
 
+  /**
+   * Initialise les notations.
+   * 
+   * @param primary
+   *          la liste des éléments primaires
+   * @param secondary
+   *          la liste des éléments secondaires
+   * @return la table des notations
+   */
   public static Map<Element, Map<Element, BigDecimal>> initNotations(final List<Element> primary,
       final List<Element> secondary) {
     final Map<Element, Map<Element, BigDecimal>> notations = new HashMap<Element, Map<Element, BigDecimal>>(
         primary.size() + secondary.size());
     Map<Element, BigDecimal> eltNotes;
-    for (Element element : primary) {
+    for (final Element element : primary) {
       eltNotes = initNotationMap(element.getNotations().size());
       eltNotes.putAll(element.getNotations());
       notations.put(element, eltNotes);
     }
-    for (Element element : secondary) {
+    for (final Element element : secondary) {
       eltNotes = initNotationMap(element.getNotations().size());
       eltNotes.putAll(element.getNotations());
       notations.put(element, eltNotes);
