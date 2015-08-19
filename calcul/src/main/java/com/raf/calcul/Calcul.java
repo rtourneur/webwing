@@ -114,13 +114,25 @@ public final class Calcul {
       duree = System.currentTimeMillis() - time;
       LOGGER.debug("Durée du traitement 1 : " + duree);
     }
-    // Traitement 3 : Calcul de la note totale de chaque élément et affectation en traitant les éléments par note
+    // Traitement 2 : Calcul de la note totale de chaque élément et affectation en traitant les éléments par note
     // décroissante, sans tenir compte des éléments déjà affectés.
     time = System.currentTimeMillis();
     traitement2(tableNotations);
     if (LOGGER.isDebugEnabled()) {
       duree = System.currentTimeMillis() - time;
       LOGGER.debug("Durée du traitement 2 : " + duree);
+    }
+    // Traitement 2b : Calcul de la note totale de chaque élément et affectation en traitant les éléments par note
+    // décroissante, sans tenir compte des éléments déjà affectés.
+    time = System.currentTimeMillis();
+    try {
+      traitement2b(tableNotations);
+    } catch (CalculException e) {
+      LOGGER.warn("Exception " + e.getMessage(), e);
+    }
+    if (LOGGER.isDebugEnabled()) {
+      duree = System.currentTimeMillis() - time;
+      LOGGER.debug("Durée du traitement 2b : " + duree);
     }
     // Traitement 3 : Calcule la note de tous les couples possibles par addition des notes et crée les couples par note
     // de couple décroissante.
@@ -130,7 +142,7 @@ public final class Calcul {
       duree = System.currentTimeMillis() - time;
       LOGGER.debug("Durée du traitement 3 : " + duree);
     }
-    // Traitement 3 : Calcule la note de tous les couples possibles par multiplication des notes et crée les couples par
+    // Traitement 4 : Calcule la note de tous les couples possibles par multiplication des notes et crée les couples par
     // note de couple décroissante.
     time = System.currentTimeMillis();
     traitement4();
@@ -303,6 +315,107 @@ public final class Calcul {
             }
           }
         }
+      }
+      if (LOGGER_TRAITEMENT.isInfoEnabled()) {
+        LOGGER_TRAITEMENT.info("-> Couple associé : l'élément " + coupleElement.getIdent() + " : " + coupleNote);
+      }
+      couple = creeCouple(bestElement, coupleElement);
+      if (LOGGER_TRAITEMENT.isInfoEnabled()) {
+        LOGGER_TRAITEMENT.info(">>> Meilleur couple : " + couple.getPrimary().getIdent() + "("
+            + couple.getPrimaryNote() + ") - " + couple.getSecondary().getIdent() + "(" + couple.getSecondaryNote()
+            + ")");
+      }
+      couples.add(couple);
+      total = total.add(couple.getPrimaryNote()).add(couple.getSecondaryNote());
+      eltAffectes.add(bestElement);
+      eltAffectes.add(coupleElement);
+    }
+    if (LOGGER_TRAITEMENT.isInfoEnabled()) {
+      LOGGER_TRAITEMENT.info("** Valeur totale de l'affectation : " + total);
+    }
+  }
+
+  /**
+   * Calcul de la note totale de chaque élément et affectation en traitant les éléments par note décroissante. La note
+   * totale est recalculée à chaque itération en excluant les éléments déjà affectés. Les notes inférieures à 1/3 ne
+   * sont pas prises en compte
+   * 
+   * @param tableNotations
+   *          la table des notations
+   */
+  public void traitement2b(final Map<Element, Map<Element, BigDecimal>> tableNotations) {
+    Map<Element, BigDecimal> notations;
+    Couple couple;
+    BigDecimal total = BigDecimal.ZERO;
+    final BigDecimal seuil = new BigDecimal(getNbCouples() / 3);
+    if (LOGGER_TRAITEMENT.isInfoEnabled()) {
+      LOGGER_TRAITEMENT.info("***** Traitement 2 b *****");
+    }
+    final List<Couple> couples = new ArrayList<Couple>(getNbCouples());
+    final List<Element> eltAffectes = new ArrayList<Element>();
+    Element currentElt;
+    BigDecimal currentNote;
+    for (int index = 1; index <= getNbCouples(); index++) {
+      Element bestElement = null;
+      BigDecimal bestNote = null;
+      if (LOGGER_TRAITEMENT.isInfoEnabled()) {
+        LOGGER_TRAITEMENT.info("** Itération " + index);
+      }
+      notations = CalculUtils.calculNotations(tableNotations, eltAffectes, seuil);
+      for (final Entry<Element, BigDecimal> eltNote : notations.entrySet()) {
+        if (LOGGER_TRAITEMENT.isDebugEnabled()) {
+          LOGGER_TRAITEMENT.debug("Notation totale de l'élément " + eltNote.getKey().getIdent() + " : "
+              + eltNote.getValue());
+        }
+      }
+      for (final Entry<Element, BigDecimal> eltNote : notations.entrySet()) {
+        currentElt = eltNote.getKey();
+        if (!eltAffectes.contains(currentElt)) {
+          currentNote = eltNote.getValue();
+          if ((bestNote == null || bestElement == null) && currentNote.compareTo(seuil) > 0) {
+            bestElement = currentElt;
+            bestNote = currentNote;
+          } else if (bestNote != null && bestElement != null) {
+            if (currentNote.compareTo(bestNote) > 0) {
+              bestElement = currentElt;
+              bestNote = currentNote;
+            } else if (currentNote.compareTo(bestNote) == 0
+                && CategorieElement.SECONDARY.equals(bestElement.getCategorie())
+                && CategorieElement.PRIMARY.equals(currentElt.getCategorie())) {
+              bestElement = currentElt;
+              bestNote = currentNote;
+            }
+          }
+        }
+      }
+      if (bestElement == null) {
+        throw new CalculException("Aucun élément candidat trouvé");
+      }
+      if (LOGGER_TRAITEMENT.isInfoEnabled()) {
+        LOGGER_TRAITEMENT.info("-> Meilleure notation totale : l'élément " + bestElement.getIdent() + " : " + bestNote);
+      }
+      Element coupleElement = null;
+      BigDecimal coupleNote = null;
+      for (final Entry<Element, BigDecimal> eltNote : bestElement.getNotations().entrySet()) {
+        currentElt = eltNote.getKey();
+        if (!eltAffectes.contains(currentElt)) {
+          currentNote = eltNote.getValue();
+          if (LOGGER_TRAITEMENT.isDebugEnabled()) {
+            LOGGER_TRAITEMENT.debug("Notation de l'élément " + currentElt.getIdent() + " : " + eltNote.getValue());
+          }
+          if ((coupleNote == null || coupleElement == null) && currentNote.compareTo(seuil) > 0) {
+            coupleElement = currentElt;
+            coupleNote = currentNote;
+          } else if (coupleNote != null && coupleElement != null) {
+            if (currentNote.compareTo(coupleNote) > 0) {
+              coupleElement = currentElt;
+              coupleNote = currentNote;
+            }
+          }
+        }
+      }
+      if (coupleElement == null) {
+        throw new CalculException("Aucun élément candidat associé trouvé");
       }
       if (LOGGER_TRAITEMENT.isInfoEnabled()) {
         LOGGER_TRAITEMENT.info("-> Couple associé : l'élément " + coupleElement.getIdent() + " : " + coupleNote);

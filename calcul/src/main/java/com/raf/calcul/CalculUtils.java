@@ -68,6 +68,23 @@ public final class CalculUtils {
    */
   public static Map<Element, BigDecimal> calculNotations(final Map<Element, Map<Element, BigDecimal>> tableNotations,
       final List<Element> eltAffectes) {
+    return calculNotations(tableNotations, eltAffectes, BigDecimal.ZERO);
+  }
+
+  /**
+   * Calcule la notation totale pour chaque élément de la table des notations. Ne tiens pas compte des éléments dans la
+   * liste des éléments affectés.
+   * 
+   * @param tableNotations
+   *          la table des notations par éléments
+   * @param eltAffectes
+   *          la liste des éléments affectés
+   * @param seuil
+   *          le seuil pour valider la note
+   * @return la table des notations totales
+   */
+  public static Map<Element, BigDecimal> calculNotations(final Map<Element, Map<Element, BigDecimal>> tableNotations,
+      final List<Element> eltAffectes, final BigDecimal seuil) {
     final Map<Element, BigDecimal> notations = initNotationMap(tableNotations.size());
     Map<Element, BigDecimal> eltNotations;
     Element current;
@@ -79,7 +96,7 @@ public final class CalculUtils {
           current = eltNote.getKey();
           if (!eltAffectes.contains(current)) {
             note = eltNote.getValue();
-            if (notations.containsKey(current)) {
+            if (notations.containsKey(current) && note.compareTo(seuil) > 0) {
               note = note.add(notations.get(current));
             }
             notations.put(current, note);
