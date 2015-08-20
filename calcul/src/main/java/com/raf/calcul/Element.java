@@ -1,14 +1,15 @@
 package com.raf.calcul;
 
-import java.math.BigDecimal;
 import java.util.Map;
 
 /**
  * L'élément d'un couple.
  * 
+ * @param <C>
+ *          le critère de notation
  * @author RAF
  */
-public interface Element {
+public interface Element<C extends Notation<C>> {
 
   /**
    * Retourne l'identifiant.
@@ -60,7 +61,7 @@ public interface Element {
    * 
    * @return les notations
    */
-  Map<Element, BigDecimal> getNotations();
+  Map<Element<C>, C> getNotations();
 
   /**
    * Définit les notations des éléments à associer.
@@ -68,6 +69,6 @@ public interface Element {
    * @param notations
    *          les notations.
    */
-  void setNotations(Map<Element, BigDecimal> notations);
+  void initNotations(Map<Element<C>, C> notations);
 
 }

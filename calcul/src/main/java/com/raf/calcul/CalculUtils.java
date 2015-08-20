@@ -1,6 +1,5 @@
 package com.raf.calcul;
 
-import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -28,8 +27,8 @@ public final class CalculUtils {
    *          la liste à copier
    * @return la liste copiée
    */
-  public static List<Element> copyListe(final List<Element> toCopy) {
-    final List<Element> temp = new ArrayList<Element>(toCopy.size());
+  public static <C extends Notation<C>> List<Element<C>> copyListe(final List<Element<C>> toCopy) {
+    final List<Element<C>> temp = new ArrayList<Element<C>>(toCopy.size());
     temp.addAll(toCopy);
     return temp;
   }
@@ -41,34 +40,8 @@ public final class CalculUtils {
    *          la taille de la table
    * @return la table des notations
    */
-  public static Map<Element, BigDecimal> initNotationMap(final int size) {
-    return new HashMap<Element, BigDecimal>(size);
-  }
-
-  /**
-   * Calcule la notation totale pour chaque élément de la table des notations.
-   * 
-   * @param tableNotations
-   *          la table des notations par éléments
-   * @return la table des notations totales
-   */
-  public static Map<Element, BigDecimal> calculNotations(final Map<Element, Map<Element, BigDecimal>> tableNotations) {
-    return calculNotations(tableNotations, new ArrayList<Element>());
-  }
-
-  /**
-   * Calcule la notation totale pour chaque élément de la table des notations. Ne tiens pas compte des éléments dans la
-   * liste des éléments affectés.
-   * 
-   * @param tableNotations
-   *          la table des notations par éléments
-   * @param eltAffectes
-   *          la liste des éléments affectés
-   * @return la table des notations totales
-   */
-  public static Map<Element, BigDecimal> calculNotations(final Map<Element, Map<Element, BigDecimal>> tableNotations,
-      final List<Element> eltAffectes) {
-    return calculNotations(tableNotations, eltAffectes, BigDecimal.ZERO);
+  public static <C extends Notation<C>> Map<Element<C>, C> initNotationMap(final int size) {
+    return new HashMap<Element<C>, C>(size);
   }
 
   /**
@@ -83,16 +56,16 @@ public final class CalculUtils {
    *          le seuil pour valider la note
    * @return la table des notations totales
    */
-  public static Map<Element, BigDecimal> calculNotations(final Map<Element, Map<Element, BigDecimal>> tableNotations,
-      final List<Element> eltAffectes, final BigDecimal seuil) {
-    final Map<Element, BigDecimal> notations = initNotationMap(tableNotations.size());
-    Map<Element, BigDecimal> eltNotations;
-    Element current;
-    BigDecimal note;
-    for (final Entry<Element, Map<Element, BigDecimal>> entry : tableNotations.entrySet()) {
+  public static <C extends Notation<C>> Map<Element<C>, C> calculNotations(
+      final Map<Element<C>, Map<Element<C>, C>> tableNotations, final List<Element<C>> eltAffectes, final C seuil) {
+    final Map<Element<C>, C> notations = initNotationMap(tableNotations.size());
+    Map<Element<C>, C> eltNotations;
+    Element<C> current;
+    C note;
+    for (final Entry<Element<C>, Map<Element<C>, C>> entry : tableNotations.entrySet()) {
       if (!eltAffectes.contains(entry.getKey())) {
         eltNotations = entry.getValue();
-        for (final Entry<Element, BigDecimal> eltNote : eltNotations.entrySet()) {
+        for (final Entry<Element<C>, C> eltNote : eltNotations.entrySet()) {
           current = eltNote.getKey();
           if (!eltAffectes.contains(current)) {
             note = eltNote.getValue();
@@ -116,17 +89,17 @@ public final class CalculUtils {
    *          la liste des éléments secondaires
    * @return la table des notations
    */
-  public static Map<Element, Map<Element, BigDecimal>> initNotations(final List<Element> primary,
-      final List<Element> secondary) {
-    final Map<Element, Map<Element, BigDecimal>> notations = new HashMap<Element, Map<Element, BigDecimal>>(
-        primary.size() + secondary.size());
-    Map<Element, BigDecimal> eltNotes;
-    for (final Element element : primary) {
+  public static <C extends Notation<C>> Map<Element<C>, Map<Element<C>, C>> initNotations(
+      final List<Element<C>> primary, final List<Element<C>> secondary) {
+    final Map<Element<C>, Map<Element<C>, C>> notations = new HashMap<Element<C>, Map<Element<C>, C>>(primary.size()
+        + secondary.size());
+    Map<Element<C>, C> eltNotes;
+    for (final Element<C> element : primary) {
       eltNotes = initNotationMap(element.getNotations().size());
       eltNotes.putAll(element.getNotations());
       notations.put(element, eltNotes);
     }
-    for (final Element element : secondary) {
+    for (final Element<C> element : secondary) {
       eltNotes = initNotationMap(element.getNotations().size());
       eltNotes.putAll(element.getNotations());
       notations.put(element, eltNotes);

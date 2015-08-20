@@ -1,44 +1,20 @@
 package com.raf.calcul;
 
-import java.math.BigDecimal;
-
-import org.apache.commons.lang3.builder.ToStringBuilder;
-
 /**
- * Le couple d'éléments.
+ * Le couple.
  * 
- * @author RAF.
- *
+ * @param <C>
+ *          le critère de notation
+ * @author RAF
  */
-public final class Couple {
-
-  /** L'élément primaire. */
-  private Element primary;
-
-  /** L'élément secondaire. */
-  private Element secondary;
-
-  /** La notation de l'élément primaire. */
-  private BigDecimal primaryNote;
-
-  /** La notation de l'élément secondaire. */
-  private BigDecimal secondaryNote;
-
-  /**
-   * Constructeur.
-   */
-  public Couple() {
-    super();
-  }
+public interface Couple<C extends Notation<C>> {
 
   /**
    * Retourne l'élément primaire.
    * 
    * @return l'élément primaire
    */
-  public Element getPrimary() {
-    return this.primary;
-  }
+  Element<C> getPrimary();
 
   /**
    * Définit l'élément primaire.
@@ -46,18 +22,14 @@ public final class Couple {
    * @param primary
    *          l'élément primaire
    */
-  public void setPrimary(final Element primary) {
-    this.primary = primary;
-  }
+  void setPrimary(Element<C> primary);
 
   /**
    * Retourne l'élément secondaire.
    * 
    * @return l'élément secondaire
    */
-  public Element getSecondary() {
-    return this.secondary;
-  }
+  Element<C> getSecondary();
 
   /**
    * Définit l'élément secondaire.
@@ -65,18 +37,14 @@ public final class Couple {
    * @param secondary
    *          l'élément secondaire
    */
-  public void setSecondary(final Element secondary) {
-    this.secondary = secondary;
-  }
+  void setSecondary(Element<C> secondary);
 
   /**
    * Retourne la notation de l'élément primaire.
    * 
    * @return la notation de l'élément primaire
    */
-  public BigDecimal getPrimaryNote() {
-    return this.primaryNote;
-  }
+  C getPrimaryNote();
 
   /**
    * Définit la notation de l'élément primaire.
@@ -84,18 +52,14 @@ public final class Couple {
    * @param la
    *          notation de l'élément primaire
    */
-  public void setPrimaryNote(final BigDecimal primaryNote) {
-    this.primaryNote = primaryNote;
-  }
+  void setPrimaryNote(C primaryNote);
 
   /**
    * Retourne la notation de l'élément secondaire.
    * 
    * @return la notation de l'élément secondaire
    */
-  public BigDecimal getSecondaryNote() {
-    return this.secondaryNote;
-  }
+  C getSecondaryNote();
 
   /**
    * Définit la notation de l'élément secondaire.
@@ -103,18 +67,6 @@ public final class Couple {
    * @param secondaryNote
    *          la notation de l'élément secondaire
    */
-  public void setSecondaryNote(final BigDecimal secondaryNote) {
-    this.secondaryNote = secondaryNote;
-  }
-
-  /**
-   * Génère le toString.
-   * 
-   * @see java.lang.Object#toString()
-   */
-  @Override
-  public String toString() {
-    return ToStringBuilder.reflectionToString(this);
-  }
+  void setSecondaryNote(C secondaryNote);
 
 }
