@@ -4,37 +4,38 @@ CREATE TABLE XWING.UPGRADE_TYPE (
     description VARCHAR(255),
     icon VARCHAR(30) NOT NULL);
 
-insert into XWING.UPGRADE_TYPE (id, name, description)
-values ('1','Pilote','Talent de pilote expérimenté');
-insert into XWING.UPGRADE_TYPE (id, name, description)
-values ('2','Astromech','Droïde Astromech');
-insert into XWING.UPGRADE_TYPE (id, name, description)
-values ('3','Astromech déglingué','Droïde Astromech de récupération');
-insert into XWING.UPGRADE_TYPE (id, name, description)
-values ('4','Torpilles','Torpilles');
-insert into XWING.UPGRADE_TYPE (id, name, description)
-values ('5','Missiles','Missiles');
-insert into XWING.UPGRADE_TYPE (id, name, description)
-values ('6','Bombes','Bombes');
-insert into XWING.UPGRADE_TYPE (id, name, description)
-values ('7','Tourelles','Tourelles');
-insert into XWING.UPGRADE_TYPE (id, name, description)
-values ('8','Canons','Canons');
-insert into XWING.UPGRADE_TYPE (id, name, description)
-values ('9','Equipage','Membres d''équipage');
-insert into XWING.UPGRADE_TYPE (id, name, description)
-values ('10','Systèmes','Systèmes de vaisseaux');
-insert into XWING.UPGRADE_TYPE (id, name, description)
-values ('11','Illégale','Améliorations illégales');
-insert into XWING.UPGRADE_TYPE (id, name, description)
-values ('12','Modifications','Modifications de vaisseau');
-insert into XWING.UPGRADE_TYPE (id, name, description)
-values ('13','Titres','Titres de vaisseau');
-insert into XWING.UPGRADE_TYPE (id, name, description)
-values ('14','Cargo','Cargo');
-insert into XWING.UPGRADE_TYPE (id, name, description)
-values ('15','Armement','Tourelles d''armement');
-insert into XWING.UPGRADE_TYPE (id, name, description)
-values ('16','Equipes','Equipes techniques');
+insert into XWING.UPGRADE_TYPE (id, name, description,icon)
+values (1, 'Pilote', 'Talent de pilote expérimenté', 'Card_Talents.png');
+insert into XWING.UPGRADE_TYPE (id, name, description,icon)
+values (2, 'Astromech', 'Droïde Astromech', 'Card_Astromech.png');
+insert into XWING.UPGRADE_TYPE (id, name, description,icon)
+values (3, 'Astromech déglingué', 'Droïde Astromech de récupération', 'Card_Salvaged.png');
+insert into XWING.UPGRADE_TYPE (id, name, description,icon)
+values (4, 'Torpilles', 'Torpilles', 'Card_Torpedoes.png');
+insert into XWING.UPGRADE_TYPE (id, name, description,icon)
+values (5, 'Missiles', 'Missiles', 'Card_Missiles.png');
+insert into XWING.UPGRADE_TYPE (id, name, description,icon)
+values (6, 'Bombes', 'Bombes', 'Card_Bombs.png');
+insert into XWING.UPGRADE_TYPE (id, name, description,icon)
+values (7, 'Tourelles', 'Tourelles', 'Card_Turret.png');
+insert into XWING.UPGRADE_TYPE (id, name, description,icon)
+values (8, 'Canons', 'Canons', 'Card_Cannons.png');
+insert into XWING.UPGRADE_TYPE (id, name, description,icon)
+values (9, 'Equipage', 'Membres d''équipage', 'Card_Crew.png');
+insert into XWING.UPGRADE_TYPE (id, name, description,icon)
+values (10, 'Systèmes', 'Systèmes de vaisseaux', 'Card_Systems.png');
+insert into XWING.UPGRADE_TYPE (id, name, description,icon)
+values (11, 'Illégale', 'Améliorations illégales', 'Card_Illicit.png');
+insert into XWING.UPGRADE_TYPE (id, name, description,icon)
+values (12, 'Modifications', 'Modifications de vaisseau', 'Card_Upgrades.png');
+insert into XWING.UPGRADE_TYPE (id, name, description,icon)
+values (13, 'Titres', 'Titres de vaisseau', 'Card_Title.png');
+insert into XWING.UPGRADE_TYPE (id, name, description,icon)
+values (14, 'Cargo', 'Cargo', 'Card_Cargo.png');
+insert into XWING.UPGRADE_TYPE (id, name, description,icon)
+values (15, 'Armement', 'Tourelles d''armement', 'Card_Hardpoint.png');
+insert into XWING.UPGRADE_TYPE (id, name, description,icon)
+values (16, 'Equipes', 'Equipes techniques', 'Card_Team.png');
+
 
 commit;
