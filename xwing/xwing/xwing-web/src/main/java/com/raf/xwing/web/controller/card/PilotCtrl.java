@@ -35,7 +35,7 @@ public class PilotCtrl extends AbstractCtrl<PilotDao, PilotForm, Pilot, Integer>
   private static final String EDIT_PAGE = "card/pilot";
 
   /** The back page. */
-  private static final String BACK_PAGE = "redirect:/xwing/card/pilot/list";
+  private static final String BACK_PAGE = "redirect:/card/pilot/list";
 
   /** The elite pilote talent ID. */
   private static final Integer TALENT_ID = Integer.valueOf(1);

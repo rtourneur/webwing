@@ -3,9 +3,9 @@ package com.raf.xwing.web.controller.card;
 import java.util.List;
 
 import javax.annotation.Resource;
-import javax.transaction.Transactional;
 
 import org.springframework.stereotype.Controller;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -37,7 +37,7 @@ public class PilotExpansionCtrl {
   private static final String LIST_PAGE = "card/expansions";
 
   /** The back page. */
-  private static final String BACK_PAGE = "redirect:/xwing/card/pilot/list";
+  private static final String BACK_PAGE = "redirect:/card/pilot/list";
 
   /** The entity dao. */
   @Resource

@@ -7,6 +7,8 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Table;
 
+import org.apache.commons.lang3.builder.ToStringBuilder;
+
 import com.raf.xwing.jpa.domain.AbstractDescriptionEntity;
 
 /**
@@ -43,7 +45,7 @@ public class UpgradeType extends AbstractDescriptionEntity<Integer> {
    * Returns the serializable ID of domain entity.
    *
    * @return the ID
-   * @see com.raf.xwing.jpa.domain.DomainEntity#getId()
+   * @see DomainEntity#getId()
    */
   @Override
   public final Integer getId() {
@@ -69,4 +71,14 @@ public class UpgradeType extends AbstractDescriptionEntity<Integer> {
     this.icon = icon;
   }
 
+  /**
+   * Append the properties for the to string builder.
+   * 
+   * @param builder the builder
+   * @see AbstractDescriptionEntity#appendDescription(ToStringBuilder)
+   */
+  @Override
+  protected final void appendDescription(final ToStringBuilder builder) {
+    builder.append("icon", this.icon);
+  }
 }

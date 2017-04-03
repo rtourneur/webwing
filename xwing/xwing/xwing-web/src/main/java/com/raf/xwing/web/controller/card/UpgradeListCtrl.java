@@ -36,7 +36,7 @@ import com.raf.xwing.web.form.card.UpgradeListForm;
 public class UpgradeListCtrl extends AbstractListCtrl<UpgradeDao, Upgrade, UpgradeListForm, Integer> {
 
   /** The admin home page. */
-  private static final String HOME_PAGE = "redirect:/xwing/main";
+  private static final String HOME_PAGE = "redirect:/main";
 
   /** The list page. */
   private static final String LIST_PAGE = "card/upgrades";
@@ -173,7 +173,7 @@ public class UpgradeListCtrl extends AbstractListCtrl<UpgradeDao, Upgrade, Upgra
       expansion.setIdent(Integer.valueOf(value));
       final UpgradeExpansion upgradeExpansion = new UpgradeExpansion();
       upgradeExpansion.setExpansion(expansion);
-      final List<UpgradeExpansion> expansions = new ArrayList<UpgradeExpansion>();
+      final List<UpgradeExpansion> expansions = new ArrayList<>();
       expansions.add(upgradeExpansion);
       entity.setExpansions(expansions);
     }

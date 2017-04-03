@@ -7,10 +7,10 @@ import com.raf.xwing.jpa.domain.DomainEntity;
 import com.raf.xwing.util.Paged;
 
 /**
- * Interface for all DAOs.
+ * Super Interface for all DAOs.
  *
  * @param <E>
- *          the domain entity.
+ *          the interface domain entity.
  * @param <I>
  *          the serializable ID.
  * @author RAF

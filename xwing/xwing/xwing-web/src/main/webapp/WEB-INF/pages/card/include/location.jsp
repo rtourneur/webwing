@@ -1,11 +1,11 @@
-<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
-<%@ taglib uri="http://www.springframework.org/tags" prefix="spring"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
 <div class="breadcrumb">
-	<a href='<spring:url value="/xwing/main"/>'><spring:message code="location.home"/></a>>
+	<a href='<spring:url value="/main"/>'><spring:message code="location.home"/></a>>
     <spring:message code="location.${domain}"/>
     <c:if test="${!empty table}">
       <c:if test="${!empty parent}">
-        ><a href='<spring:url value="/xwing/card/${parent}/list"/>'><spring:message code="location.${domain}.${parent}"/></a>
+        ><a href='<spring:url value="/card/${parent}/list"/>'><spring:message code="location.${domain}.${parent}"/></a>
       </c:if>
       <c:choose>
         <c:when test="${empty param.mode}">
@@ -14,7 +14,7 @@
         <c:otherwise>
           <c:choose>
             <c:when test="${empty parent}">
-              ><a href='<spring:url value="/xwing/card/${table}/list"/>'><spring:message code="location.${domain}.${table}"/></a>
+              ><a href='<spring:url value="/card/${table}/list"/>'><spring:message code="location.${domain}.${table}"/></a>
             </c:when>
             <c:otherwise>
               ><spring:message code="location.${domain}.${table}"/>

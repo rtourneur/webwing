@@ -2,9 +2,12 @@ package com.raf.xwing.jpa.domain.model;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+
+import org.apache.commons.lang3.builder.ToStringBuilder;
 
 import com.raf.xwing.jpa.domain.AbstractEntity;
 
@@ -21,12 +24,12 @@ public class Dial extends AbstractEntity<Integer> {
   private static final long serialVersionUID = 1L;
 
   /** The ship type. */
-  @ManyToOne
+  @ManyToOne(fetch = FetchType.LAZY)
   @JoinColumn(name = "SHIP_TYPE_ID", referencedColumnName = "ID")
   private ShipType shipType;
 
   /** The maneuver type. */
-  @ManyToOne
+  @ManyToOne(fetch = FetchType.LAZY)
   @JoinColumn(name = "MANEUVER_TYPE_ID", referencedColumnName = "ID")
   private ManeuverType maneuverType;
 
@@ -45,7 +48,7 @@ public class Dial extends AbstractEntity<Integer> {
    * Returns the serializable ID of domain entity.
    *
    * @return the ID
-   * @see com.raf.xwing.jpa.domain.DomainEntity#getId()
+   * @see AbstractEntity#getId()
    */
   @Override
   public final Integer getId() {
@@ -107,6 +110,26 @@ public class Dial extends AbstractEntity<Integer> {
    */
   public final void setSpeed(final int speed) {
     this.speed = speed;
+  }
+
+  /**
+   * Append the properties for the to string builder.
+   * 
+   * @param builder
+   *          the builder
+   * @see AbstractEntity#append(ToStringBuilder)
+   */
+  @Override
+  protected final void append(final ToStringBuilder builder) {
+    if (this.shipType != null
+        && ShipType.class.equals(this.shipType.getClass())) {
+      builder.append("shipType", this.shipType);
+    }
+    if (this.maneuverType != null
+        && ManeuverType.class.equals(this.maneuverType.getClass())) {
+      builder.append("maneuverType", this.maneuverType);
+    }
+    builder.append("speed", this.speed);
   }
 
 }

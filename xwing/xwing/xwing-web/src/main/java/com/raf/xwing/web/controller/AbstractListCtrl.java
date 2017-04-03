@@ -32,7 +32,7 @@ import com.raf.xwing.web.form.AbstractSearchListForm;
 public abstract class AbstractListCtrl<D extends EntityDao<E, I>, E extends DomainEntity<I>, F extends AbstractSearchListForm, I extends Serializable> {
 
   /** The admin home page. */
-  private static final String HOME_PAGE = "redirect:/xwing/admin/home";
+  private static final String HOME_PAGE = "redirect:/admin/home";
 
   /** The search field name. */
   protected static final String FIELD_NAME = "name";

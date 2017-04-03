@@ -11,6 +11,7 @@ import javax.annotation.Resource;
 
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Controller;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -44,7 +45,7 @@ import com.raf.xwing.web.form.card.PilotListForm;
 public class PilotListCtrl extends AbstractListCtrl<PilotDao, Pilot, PilotListForm, Integer> {
 
   /** The admin home page. */
-  private static final String HOME_PAGE = "redirect:/xwing/main";
+  private static final String HOME_PAGE = "redirect:/main";
 
   /** The list page. */
   private static final String LIST_PAGE = "card/pilots";
@@ -173,6 +174,7 @@ public class PilotListCtrl extends AbstractListCtrl<PilotDao, Pilot, PilotListFo
    * @return the dial page
    */
   @Loggable
+  @Transactional
   @RequestMapping(value = "card/pilot/dial", method = RequestMethod.POST)
   public String dial(@RequestParam(value = "id", required = true) final Integer ident, final Model model) {
     final Pilot pilot = getEntityDao().getById(ident);
@@ -242,7 +244,7 @@ public class PilotListCtrl extends AbstractListCtrl<PilotDao, Pilot, PilotListFo
       expansion.setIdent(Integer.valueOf(value));
       final PilotExpansion pilotExpansion = new PilotExpansion();
       pilotExpansion.setExpansion(expansion);
-      final List<PilotExpansion> expansions = new ArrayList<PilotExpansion>();
+      final List<PilotExpansion> expansions = new ArrayList<>();
       expansions.add(pilotExpansion);
       entity.setExpansions(expansions);
     }

@@ -6,6 +6,8 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
+import org.apache.commons.lang3.builder.ToStringBuilder;
+
 import com.raf.xwing.jpa.domain.AbstractEntity;
 import com.raf.xwing.jpa.domain.model.Expansion;
 
@@ -46,7 +48,7 @@ public class UpgradeExpansion extends AbstractEntity<Integer> {
    * Returns the serializable ID of domain entity.
    *
    * @return the ID
-   * @see com.raf.xwing.jpa.domain.DomainEntity#getId()
+   * @see DomainEntity#getId()
    */
   @Override
   public final Integer getId() {
@@ -108,6 +110,24 @@ public class UpgradeExpansion extends AbstractEntity<Integer> {
    */
   public final void setQuantity(final int quantity) {
     this.quantity = quantity;
+  }
+
+  /**
+   * Append the properties for the to string builder.
+   * 
+   * @param builder
+   *          the builder
+   * @see AbstractEntity#append(ToStringBuilder)
+   */
+  @Override
+  protected final void append(final ToStringBuilder builder) {
+    if (this.upgrade != null && Upgrade.class.equals(this.upgrade.getClass())) {
+      builder.append("upgrade", this.upgrade);
+    }
+    if (this.expansion != null && Expansion.class.equals(this.expansion.getClass())) {
+      builder.append("expansion", this.expansion);
+    }
+    builder.append("quantity", this.quantity);
   }
 
 }

@@ -112,16 +112,16 @@ values ( 27, 14,  1);
 insert into XWING.SHIP_UPGRADE (ship_type_id, upgrade_type_id, quantity)
 values ( 28, 14,  1);
 insert into XWING.SHIP_UPGRADE (ship_type_id, upgrade_type_id, quantity)
-values ( 29, 14,  1);"
-"insert into XWING.SHIP_UPGRADE (ship_type_id, upgrade_type_id, quantity)
+values ( 29, 14,  1);
+insert into XWING.SHIP_UPGRADE (ship_type_id, upgrade_type_id, quantity)
 values ( 26, 15,  2);
 insert into XWING.SHIP_UPGRADE (ship_type_id, upgrade_type_id, quantity)
 values ( 27, 15,  1);
 insert into XWING.SHIP_UPGRADE (ship_type_id, upgrade_type_id, quantity)
 values ( 28, 15,  1);
 insert into XWING.SHIP_UPGRADE (ship_type_id, upgrade_type_id, quantity)
-values ( 29, 15,  2);"
-"insert into XWING.SHIP_UPGRADE (ship_type_id, upgrade_type_id, quantity)
+values ( 29, 15,  2);
+insert into XWING.SHIP_UPGRADE (ship_type_id, upgrade_type_id, quantity)
 values ( 26, 16,  2);
 insert into XWING.SHIP_UPGRADE (ship_type_id, upgrade_type_id, quantity)
 values ( 27, 16,  1);
@@ -130,4 +130,3 @@ values ( 28, 16,  1);
 insert into XWING.SHIP_UPGRADE (ship_type_id, upgrade_type_id, quantity)
 values ( 29, 16,  2);
 
-commit;

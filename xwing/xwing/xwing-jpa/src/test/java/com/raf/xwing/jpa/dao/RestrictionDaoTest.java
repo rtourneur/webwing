@@ -13,11 +13,8 @@ import java.util.List;
 import javax.annotation.Resource;
 
 import org.junit.Test;
-import org.junit.runner.RunWith;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.test.annotation.Rollback;
-import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.raf.xwing.jpa.domain.DomainEntity;
@@ -29,27 +26,24 @@ import com.raf.xwing.util.Paged;
  * Test class for {@link RestrictionDao}
  * 
  * @author RAF
- *
  */
-@RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration("classpath:application-context-test.xml")
-public class RestrictionDaoTest {
-
+public class RestrictionDaoTest extends AbstractDaoTest {
+  
   /** Le DAO restriction. */
   @Resource
   private transient RestrictionDao restrictionDao;
-
+  
   /** Le DAO restriction type. */
   @Resource
   private transient RestrictionTypeDao restrictionTypeDao;
-
+  
   /**
    * Constructeur.
    */
   public RestrictionDaoTest() {
     super();
   }
-
+  
   /**
    * Test method for {@link RestrictionDao#getById(Serializable)}.
    */
@@ -61,7 +55,7 @@ public class RestrictionDaoTest {
     restriction = this.restrictionDao.getById(Integer.valueOf(0));
     assertNull("Le type d'action ne devrait pas exister", restriction);
   }
-
+  
   /**
    * Test method for {@link RestrictionDao#persist(DomainEntity)}.
    */
@@ -72,7 +66,7 @@ public class RestrictionDaoTest {
     this.restrictionDao.persist(restriction);
     fail("Persistence d'un objet incomplet");
   }
-
+  
   /**
    * Test method for {@link RestrictionDao#persist(DomainEntity)}.
    */
@@ -85,7 +79,7 @@ public class RestrictionDaoTest {
     this.restrictionDao.persist(restriction);
     fail("Persistence d'un objet existant");
   }
-
+  
   /**
    * Test method for {@link RestrictionDao#persist(DomainEntity)}.
    */
@@ -105,7 +99,7 @@ public class RestrictionDaoTest {
     assertNotNull("L'objet n'existe pas après la création", resultat);
     assertEquals("Le type de l'objet n'est pas correct", "Ship", resultat.getRestrictionType().getName());
   }
-
+  
   /**
    * Test method for {@link RestrictionDao#merge(DomainEntity)}.
    */
@@ -116,7 +110,7 @@ public class RestrictionDaoTest {
     final Integer ident = Integer.valueOf(1);
     Restriction resultat = this.restrictionDao.getById(ident);
     assertNotNull("L'objet n'existe pas avant la mise à jour", resultat);
-    final RestrictionType restrictionType = resultat.getRestrictionType();  
+    final RestrictionType restrictionType = resultat.getRestrictionType();
     Restriction restriction = new Restriction();
     restriction.setIdent(resultat.getIdent());
     restriction.setRestrictionType(this.restrictionTypeDao.getById(Integer.valueOf(1)));
@@ -126,7 +120,7 @@ public class RestrictionDaoTest {
     assertNotNull("L'objet n'existe pas après la mise à jour", resultat);
     assertNotEquals("Le type n'a pas été modifié", restrictionType, resultat.getRestrictionType());
   }
-
+  
   /**
    * Test method for {@link RestrictionDao#remove(DomainEntity)}.
    */
@@ -141,7 +135,7 @@ public class RestrictionDaoTest {
     resultat = this.restrictionDao.getById(ident);
     assertNull("L'objet existe après la mise à jour", resultat);
   }
-
+  
   /**
    * Test method for {@link RestrictionDao#findByExample(DomainEntity)}.
    */
@@ -156,7 +150,7 @@ public class RestrictionDaoTest {
     assertFalse("La liste est vide", resultats.isEmpty());
     assertEquals("La liste n'est pas correcte", 17, resultats.size());
   }
-
+  
   /**
    * Test method for {@link EntityDao#list(int, int)}.
    */
@@ -166,5 +160,5 @@ public class RestrictionDaoTest {
     assertFalse("La liste est vide", resultats.isEmpty());
     assertEquals("La liste n'est pas complete", 10, resultats.size());
   }
-
+  
 }

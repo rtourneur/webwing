@@ -90,11 +90,22 @@ public abstract class AbstractEntity<I extends Serializable> implements DomainEn
   /**
    * Generate the toString.
    *
-   * @see java.lang.Object#toString()
+   * @see Object#toString()
    */
   @Override
   public final String toString() {
-    return ToStringBuilder.reflectionToString(this);
+    final ToStringBuilder builder = new ToStringBuilder(this);
+    append(builder);
+    return builder.toString();
   }
+
+  /**
+   * Append the properties for the to string builder.
+   * 
+   * @param builder
+   *          the builder
+   */
+  protected abstract void append(ToStringBuilder builder);
+
 
 }

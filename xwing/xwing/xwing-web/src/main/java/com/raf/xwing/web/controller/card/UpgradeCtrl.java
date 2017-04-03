@@ -31,7 +31,7 @@ public class UpgradeCtrl extends AbstractCtrl<UpgradeDao, UpgradeForm, Upgrade, 
   private static final String EDIT_PAGE = "card/upgrade";
 
   /** The back page. */
-  private static final String BACK_PAGE = "redirect:/xwing/card/upgrade/list";
+  private static final String BACK_PAGE = "redirect:/card/upgrade/list";
 
   /** The entity dao. */
   @Resource

@@ -6,7 +6,7 @@ import java.util.List;
 import javax.persistence.Entity;
 import javax.persistence.Table;
 
-import com.raf.xwing.jpa.domain.AbstractDescriptionEntity;
+import com.raf.xwing.jpa.domain.AbstractNamedEntity;
 
 /**
  * The domain class for the FACTION table.
@@ -15,7 +15,7 @@ import com.raf.xwing.jpa.domain.AbstractDescriptionEntity;
  */
 @Entity
 @Table(name = "RESTRICTION_TYPE", schema = "XWING")
-public class RestrictionType extends AbstractDescriptionEntity<Integer> {
+public class RestrictionType extends AbstractNamedEntity<Integer> {
 
   /** Serial UID. */
   private static final long serialVersionUID = 1L;
@@ -38,7 +38,7 @@ public class RestrictionType extends AbstractDescriptionEntity<Integer> {
    * Returns the serializable ID of domain entity.
    *
    * @return the ID
-   * @see com.raf.xwing.jpa.domain.DomainEntity#getId()
+   * @see AbstractNamedEntity#getId()
    */
   @Override
   public final Integer getId() {

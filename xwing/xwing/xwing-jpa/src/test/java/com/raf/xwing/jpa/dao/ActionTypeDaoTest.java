@@ -13,11 +13,8 @@ import java.util.List;
 import javax.annotation.Resource;
 
 import org.junit.Test;
-import org.junit.runner.RunWith;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.test.annotation.Rollback;
-import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.raf.xwing.jpa.domain.DomainEntity;
@@ -28,23 +25,20 @@ import com.raf.xwing.util.Paged;
  * Test class for {@link ActionTypeDao}
  * 
  * @author RAF
- *
  */
-@RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration("classpath:application-context-test.xml")
-public class ActionTypeDaoTest {
-
+public class ActionTypeDaoTest extends AbstractDaoTest {
+  
   /** Le DAO action type. */
   @Resource
   private transient ActionTypeDao actionTypeDao;
-
+  
   /**
    * Constructeur.
    */
   public ActionTypeDaoTest() {
     super();
   }
-
+  
   /**
    * Test method for {@link ActionTypeDao#getById(Serializable)}.
    */
@@ -56,7 +50,7 @@ public class ActionTypeDaoTest {
     actionType = this.actionTypeDao.getById(Integer.valueOf(0));
     assertNull("Le type d'action ne devrait pas exister", actionType);
   }
-
+  
   /**
    * Test method for {@link ActionTypeDao#persist(DomainEntity)}.
    */
@@ -67,7 +61,7 @@ public class ActionTypeDaoTest {
     this.actionTypeDao.persist(actionType);
     fail("Persistence d'un objet incomplet");
   }
-
+  
   /**
    * Test method for {@link ActionTypeDao#persist(DomainEntity)}.
    */
@@ -81,7 +75,7 @@ public class ActionTypeDaoTest {
     this.actionTypeDao.persist(actionType);
     fail("Persistence d'un objet existant");
   }
-
+  
   /**
    * Test method for {@link ActionTypeDao#persist(DomainEntity)}.
    */
@@ -102,7 +96,7 @@ public class ActionTypeDaoTest {
     assertNotNull("L'objet n'existe pas après la création", resultat);
     assertEquals("Le nom de l'objet n'est pas correct", "Test", resultat.getName());
   }
-
+  
   /**
    * Test method for {@link ActionTypeDao#merge(DomainEntity)}.
    */
@@ -125,7 +119,7 @@ public class ActionTypeDaoTest {
     assertNotNull("L'objet n'existe pas après la mise à jour", resultat);
     assertNotEquals("Le nom n'a pas été modifié", name, resultat.getName());
   }
-
+  
   /**
    * Test method for {@link ActionTypeDao#remove(DomainEntity)}.
    */
@@ -140,7 +134,7 @@ public class ActionTypeDaoTest {
     resultat = this.actionTypeDao.getById(ident);
     assertNull("L'objet existe après la mise à jour", resultat);
   }
-
+  
   /**
    * Test method for {@link ActionTypeDao#findByExample(DomainEntity)}.
    */
@@ -155,7 +149,7 @@ public class ActionTypeDaoTest {
     assertFalse("La liste est vide", resultats.isEmpty());
     assertEquals("La liste n'est pas correcte", 1, resultats.size());
   }
-
+  
   /**
    * Test method for {@link EntityDao#list(int, int)}.
    */
@@ -165,5 +159,5 @@ public class ActionTypeDaoTest {
     assertFalse("La liste est vide", resultats.isEmpty());
     assertEquals("La liste n'est pas complete", 10, resultats.size());
   }
-
+  
 }

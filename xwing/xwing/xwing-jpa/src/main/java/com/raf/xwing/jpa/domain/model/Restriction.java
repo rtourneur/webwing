@@ -12,13 +12,14 @@ import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
+import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.hibernate.annotations.Fetch;
 import org.hibernate.annotations.FetchMode;
 
 import com.raf.xwing.jpa.domain.AbstractEntity;
 
 /**
- * The domain class for the UPGRADE table.
+ * The domain class for the RESTRICTION table.
  *
  * @author RAF
  */
@@ -68,7 +69,7 @@ public class Restriction extends AbstractEntity<Integer> {
    * Returns the serializable ID of domain entity.
    *
    * @return the ID
-   * @see com.raf.xwing.jpa.domain.DomainEntity#getId()
+   * @see AbstractEntity#getId()
    */
   @Override
   public final Integer getId() {
@@ -149,6 +150,20 @@ public class Restriction extends AbstractEntity<Integer> {
    */
   public final void setFaction(final Faction faction) {
     this.faction = faction;
+  }
+
+  /**
+   * Append the properties for the to string builder.
+   * 
+   * @param builder
+   *          the builder
+   * @see AbstractEntity#append(ToStringBuilder)
+   */
+  @Override
+  protected final void append(final ToStringBuilder builder) {
+    if (this.restrictionType != null && RestrictionType.class.equals(this.restrictionType.getClass())) {
+      builder.append("restrictionType", this.restrictionType);
+    }
   }
 
 }

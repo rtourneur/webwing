@@ -14,6 +14,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
+import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.hibernate.annotations.Fetch;
 import org.hibernate.annotations.FetchMode;
 
@@ -82,7 +83,7 @@ public class Upgrade extends AbstractDescriptionEntity<Integer> {
    * Returns the serializable ID of domain entity.
    *
    * @return the ID
-   * @see com.raf.xwing.jpa.domain.DomainEntity#getId()
+   * @see DomainEntity#getId()
    */
   @Override
   public final Integer getId() {
@@ -201,6 +202,20 @@ public class Upgrade extends AbstractDescriptionEntity<Integer> {
    */
   public final void setExpansions(final List<UpgradeExpansion> expansions) {
     this.expansions = expansions;
+  }
+
+  /**
+   * Append the properties for the to string builder.
+   * 
+   * @param builder the builder
+   * @see AbstractDescriptionEntity#appendDescription(ToStringBuilder)
+   */
+  @Override
+  protected final void appendDescription(final ToStringBuilder builder) {
+    if (this.upgradeType != null && UpgradeType.class.equals(this.upgradeType.getClass())) {
+      builder.append("upgradeType", this.upgradeType);
+    }
+    builder.append("cost", this.cost).append("uniqueness", this.uniqueness).append("limited", this.limited);    
   }
 
 }

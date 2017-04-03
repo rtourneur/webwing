@@ -7,49 +7,51 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Table;
 
+import org.apache.commons.lang3.builder.ToStringBuilder;
+
 import com.raf.xwing.jpa.domain.AbstractDescriptionEntity;
 
 /**
  * The domain class for the ACTION_TYPE table.
- *
+ * 
  * @author RAF
  */
 @Entity
 @Table(name = "ACTION_TYPE", schema = "XWING")
 public class ActionType extends AbstractDescriptionEntity<Integer> {
-
+  
   /** Serial UID. */
   private static final long serialVersionUID = 1L;
-
+  
   /** The list of searched fields. */
   public static final List<String> FIELDS = new ArrayList<>();
-
+  
   /** The icon name. */
   @Column(name = "ICON", nullable = false)
   private String icon;
-
+  
   static {
     FIELDS.add("name");
   }
-
+  
   /**
    * Constructor.
    */
   public ActionType() {
     super();
   }
-
+  
   /**
    * Returns the serializable ID of domain entity.
-   *
+   * 
    * @return the ID
-   * @see com.raf.xwing.jpa.domain.DomainEntity#getId()
+   * @see DomainEntity#getId()
    */
   @Override
   public final Integer getId() {
     return getIdent();
   }
-
+  
   /**
    * Return the icon name.
    * 
@@ -58,15 +60,24 @@ public class ActionType extends AbstractDescriptionEntity<Integer> {
   public final String getIcon() {
     return this.icon;
   }
-
+  
   /**
    * Define the icon name.
    * 
-   * @param icon
-   *          the icon to set
+   * @param icon the icon to set
    */
   public final void setIcon(final String icon) {
     this.icon = icon;
   }
-
+  
+  /**
+   * Append the properties for the to string builder.
+   * 
+   * @param builder the builder
+   * @see AbstractDescriptionEntity#appendDescription(ToStringBuilder)
+   */
+  @Override
+  protected final void appendDescription(final ToStringBuilder builder) {
+    builder.append("icon", this.icon);
+  }
 }

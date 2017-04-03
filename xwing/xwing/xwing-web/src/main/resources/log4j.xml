@@ -18,6 +18,11 @@
     <appender-ref ref="Console" />
   </logger>
 
+  <logger name="org.springframework.security" additivity="false">
+    <level value="DEBUG" />
+    <appender-ref ref="Console" />
+  </logger>
+
   <logger name="org.hibernate" additivity="false">
     <level value="INFO" />
     <appender-ref ref="Console" />

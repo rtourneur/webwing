@@ -5,6 +5,8 @@ import java.io.Serializable;
 import javax.persistence.Column;
 import javax.persistence.MappedSuperclass;
 
+import org.apache.commons.lang3.builder.ToStringBuilder;
+
 /**
  * Abstract super class for domain entities.
  *
@@ -53,4 +55,26 @@ public abstract class AbstractNamedEntity<I extends Serializable> extends Abstra
     this.name = name;
   }
 
+  /**
+   * Append the properties for the to string builder.
+   * 
+   * @param builder
+   *          the builder
+   * @see AbstractEntity#append(ToStringBuilder)
+   */
+  @Override
+  protected final void append(final ToStringBuilder builder) {
+    builder.append("name", getName());
+    appendName(builder);
+  }
+
+  /**
+   * Append the properties for the to string builder.
+   * 
+   * @param builder
+   *          the builder
+   */
+  protected void appendName(final ToStringBuilder builder) {
+    // RAS
+  }
 }

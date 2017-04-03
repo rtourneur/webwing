@@ -49,7 +49,7 @@ public class ShipUpgrade implements DomainEntity<ShipUpgradePk> {
    * Returns the serializable ID of domain entity.
    *
    * @return the ID
-   * @see com.raf.xwing.jpa.domain.DomainEntity#getId()
+   * @see DomainEntity#getId()
    */
   @Override
   public final ShipUpgradePk getId() {

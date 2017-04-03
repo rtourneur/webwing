@@ -3,7 +3,7 @@ package com.raf.xwing.web.dto;
 import java.io.Serializable;
 
 /**
- * The Dial displau object.
+ * The Dial display object.
  * 
  * @author RAF
  *

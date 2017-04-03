@@ -11,6 +11,7 @@ import javax.annotation.Resource;
 
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Controller;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -162,6 +163,7 @@ public class ShipTypeCtrl extends AbstractListCtrl<ShipTypeDao, ShipType, ShipTy
    * @return the dial page
    */
   @Loggable
+  @Transactional
   @RequestMapping(value = "admin/shiptype/dial", method = RequestMethod.POST)
   public String dial(@RequestParam(value = "id", required = true) final Integer ident, final Model model) {
     final ShipType entity = getEntityDao().getById(ident);

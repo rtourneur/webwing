@@ -12,10 +12,7 @@ import java.util.List;
 import javax.annotation.Resource;
 
 import org.junit.Test;
-import org.junit.runner.RunWith;
 import org.springframework.test.annotation.Rollback;
-import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.raf.xwing.jpa.domain.DomainEntity;
@@ -27,31 +24,28 @@ import com.raf.xwing.util.Paged;
 
 /**
  * @author raphael.tourneur
- *
  */
-@RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration("classpath:application-context-test.xml")
-public class ShipTypeDaoTest {
-
+public class ShipTypeDaoTest extends AbstractDaoTest {
+  
   /** The ship type DAO. */
   @Resource
   private transient ShipTypeDao shipTypeDao;
-
+  
   /** The action type DAO. */
   @Resource
   private transient ActionTypeDao actionTypeDao;
-
+  
   /** The upgrade type DAO. */
   @Resource
   private transient UpgradeTypeDao upgradeTypeDao;
-
+  
   /**
    * Constructor.
    */
   public ShipTypeDaoTest() {
     super();
   }
-
+  
   /**
    * Test method for {@link EntityDao#getById(java.io.Serializable)}.
    */
@@ -66,7 +60,7 @@ public class ShipTypeDaoTest {
     assertFalse("La liste des améliorations est vide", shipType.getUpgrades().isEmpty());
     assertEquals("La liste des améliorations n'est pas correcte", 2, shipType.getUpgrades().size());
   }
-
+  
   /**
    * Test method for {@link EntityDao#persist(DomainEntity)}.
    */
@@ -91,7 +85,7 @@ public class ShipTypeDaoTest {
     shipType.setUpgrades(upgrades);
     final ShipUpgrade shipUpgrade = new ShipUpgrade();
     // shipUpgrade.setShipUpgradePk(new ShipUpgradePk());
-
+    
     // shipUpgrade.getShipUpgradePk().setShipType(shipType.getId());
     shipUpgrade.setUpgradeType(this.upgradeTypeDao.getById(Integer.valueOf(1)));
     shipUpgrade.setQuantity(2);
@@ -102,7 +96,7 @@ public class ShipTypeDaoTest {
     assertFalse("La liste des actions est vide", resultat.getActions().isEmpty());
     assertFalse("La liste des améliorations est vide", resultat.getUpgrades().isEmpty());
   }
-
+  
   /**
    * Test method for {@link EntityDao#merge(DomainEntity)}.
    */
@@ -113,7 +107,7 @@ public class ShipTypeDaoTest {
     final Integer ident = Integer.valueOf(1);
     ShipType resultat = this.shipTypeDao.getById(ident);
     assertNotNull("L'objet n'existe pas avant la mise à jour", resultat);
-
+    
     final String name = resultat.getName();
     final int nbActions = resultat.getActions().size();
     final int nbUpgrades = resultat.getUpgrades().size();
@@ -142,9 +136,9 @@ public class ShipTypeDaoTest {
     assertEquals("La liste des actions n'est pas correcte", nbActions + 1, resultat.getActions().size());
     assertFalse("La liste des améliorations est vide", resultat.getUpgrades().isEmpty());
     assertEquals("La liste des améliorations n'est pas correcte", nbUpgrades + 1, resultat.getUpgrades().size());
-
+    
   }
-
+  
   /**
    * Test method for {@link EntityDao#remove(DomainEntity)}.
    */
@@ -159,7 +153,7 @@ public class ShipTypeDaoTest {
     resultat = this.shipTypeDao.getById(ident);
     assertNull("L'objet existe après la mise à jour", resultat);
   }
-
+  
   /**
    * Test method for {@link EntityDao#findByExample(DomainEntity)}.
    */
@@ -200,7 +194,7 @@ public class ShipTypeDaoTest {
     assertFalse("La liste est vide", resultats.isEmpty());
     assertEquals("La liste n'est pas correcte", 1, resultats.size());
   }
-
+  
   /**
    * Test method for {@link EntityDao#list(int, int)}.
    */
